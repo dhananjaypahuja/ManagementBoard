@@ -25,7 +25,7 @@ public class TaskModel implements Serializable {
     public String getDescription() {
         return description;
     }
-    public String getDue() {
+    public Date getDue() {
         return due;
     }
     // Mutators
