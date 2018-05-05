@@ -31,6 +31,8 @@ public class TaskBoardClass extends JPanel
 
     public static void main(String[] args)
     {
+        LogScreen lg = new LogScreen();
+        lg.launch();
         final int size = 100;
 
         JFrame.setDefaultLookAndFeelDecorated(true);

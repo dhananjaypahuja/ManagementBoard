@@ -22,7 +22,7 @@ public class LogScreen{
     /**
      * Launch the application.
      */
-    public static void main(String[] args) {
+    public static void launch() {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
