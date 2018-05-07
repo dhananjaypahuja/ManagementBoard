@@ -28,6 +28,10 @@ public class TaskView extends JPanel {
         add(due);
 
     }
+    /**
+     * Recommended constructor for TaskView objects.
+     * @param task A TaskModel whose data this TaskView is to represent.
+     */
     public TaskView(TaskModel task) {
         this();
         setTask(task);
@@ -40,6 +44,9 @@ public class TaskView extends JPanel {
     public TaskModel getTask() {
         return task;
     }
+    /**
+     * Ensures that the text displayed by this TaskView object is up to date.
+     */
     public void updateLabels() {
         title.setText(task.getTitle());
         description.setText(task.getDescription());

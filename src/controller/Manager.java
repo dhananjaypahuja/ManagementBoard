@@ -12,14 +12,14 @@ public class Manager {
     public static boolean addColumn(ProjectView pView, ColumnModel cModel, int index) {
         if (index < 0 || index >= pView.getComponentCount())
             return false;
-        pView.getProject().add(cModel, index);
+        pView.getProject().add(index, cModel);
         pView.add(new ColumnView(cModel), index);
         return true;
     }
     public static boolean addTask(ColumnView cView, TaskModel tModel, int index) {
         if (index < 0 || index >= pView.getComponentCount())
             return false;
-        cView.getColumn().add(tModel, index);
+        cView.getColumn().add(index, tModel);
         cView.add(new TaskView(tModel), index);
         return true;
     }
@@ -50,8 +50,8 @@ public class Manager {
         ColumnView cView1 = pView.remove(index1);
         pView.add(cView1, index1);
         pView.add(cView2, index2);
-        pModel.add(cModel1, index1);
-        pModel.add(cModel2, index2);
+        pModel.add(index1, cModel1);
+        pModel.add(index2, cModel2);
         return true;
     }
     public static boolean swapTasks(ColumnView cView, int index1, int index2) {
@@ -71,8 +71,8 @@ public class Manager {
         TaskView tView1 = cView.remove(index1);
         cView.add(tView1, index1);
         cView.add(tView2, index2);
-        cModel.add(tModel1, index1);
-        cModel.add(tModel2, index2);
+        cModel.add(index1, tModel1);
+        cModel.add(index2, tModel2);
         return true;
     }
 }
