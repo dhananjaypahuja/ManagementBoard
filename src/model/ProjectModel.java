@@ -11,4 +11,7 @@ public class ProjectModel extends ListModel<ColumnModel> {
     public ProjectModel() {
         setTitle("New Project");
     }
+    public ProjectModel(String title, ColumnModel... contents) {
+        super(title, contents);
+    }
 }

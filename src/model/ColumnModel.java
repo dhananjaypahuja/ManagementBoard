@@ -11,4 +11,7 @@ public class ColumnModel extends ListModel<TaskModel> {
     public ColumnModel() {
         setTitle("New column");
     }
+    public ColumnModel(String title, TaskModel... contents) {
+        super(title, contents);
+    }
 }
