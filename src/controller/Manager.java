@@ -9,30 +9,56 @@ import javax.swing.*;
  */
 public class Manager {
     // A bunch of duplicate code here. Probably should be changed, but it works for now.
-    public static boolean addColumn(ProjectView pView, ColumnModel cModel, int index) {
-        if (index < 0 || index >= pView.getComponentCount())
-            return false;
+
+    /**
+     * Adds a column to a project view and model.
+     * @param pView The {@link ProjectView} to which the column should be added.
+     * @param cModel The {@link ColumnModel} representing the column to add.
+     * @param index The position in the project at which to add the column.
+     */
+    public static void addColumn(ProjectView pView, ColumnModel cModel, int index) {
         pView.getProject().add(index, cModel);
         pView.add(new ColumnView(cModel), index);
-        return true;
     }
-    public static boolean addTask(ColumnView cView, TaskModel tModel, int index) {
-        if (index < 0 || index >= pView.getComponentCount())
-            return false;
+    /**
+     * Adds a task to a column view and model.
+     * @param cView The {@link ColumnView} to which the task should be added.
+     * @param tModel The {@link TaskModel} representing the task to add.
+     * @param index The position in the column at which to add the task.
+     */
+    public static void addTask(ColumnView cView, TaskModel tModel, int index) {
         cView.getColumn().add(index, tModel);
         cView.add(new TaskView(tModel), index);
-        return true;
     }
+    /**
+     * Removes a column from a project view and model.
+     * @param pView The {@link ProjectView} from which the column should be removed.
+     * @param index The position of the column to remove.
+     * @return The removed column.
+     */
     public static ColumnModel removeColumn(ProjectView pView, int index) {
         ColumnModel col = pView.getProject().remove(index);
         pView.remove(index);
         return col;
     }
+    /**
+     * Removes a task from a column view and model.
+     * @param cView The {@link ColumnView} from which the task should be removed.
+     * @param index The position of the task to remove.
+     * @return The removed task.
+     */
     public static TaskModel removeTask(ColumnView cView, int index) {
         TaskModel task = cView.getColumn().remove(index);
         cView.remove(index);
         return task;
     }
+    /**
+     * Swaps two columns in a project view and model.
+     * @param pView The {@link ProjectView} of the project whose columns should be swapped.
+     * @param index1 The position of one column to swap.
+     * @param index2 The position of the other column to swap.
+     * @return Whether a change occurred.
+     */
     public static boolean swapColumns(ProjectView pView, int index1, int index2) {
         ProjectModel pModel = pView.getProject();
         // We may not have to do anything.
@@ -44,6 +70,7 @@ public class Manager {
             index1 = index2;
             index2 = hold;
         }
+        // Swap models and views
         ColumnModel cModel2 = pModel.get(index2);
         ColumnModel cModel1 = pModel.get(index1);
         ColumnView cView2 = pView.remove(index2);
@@ -52,8 +79,17 @@ public class Manager {
         pView.add(cView2, index2);
         pModel.add(index1, cModel1);
         pModel.add(index2, cModel2);
+        // Inform the project view that a change has occurred
+        cView.revalidate();
         return true;
     }
+    /**
+     * Swaps two tasks in a column view and model.
+     * @param pView The {@link ColumnView} of the column whose tasks should be swapped.
+     * @param index1 The position of one task to swap.
+     * @param index2 The position of the other task to swap.
+     * @return Whether a change occurred.
+     */
     public static boolean swapTasks(ColumnView cView, int index1, int index2) {
         ColumnModel cModel = cView.getColumn();
         // We may not have to do anything.
@@ -65,6 +101,7 @@ public class Manager {
             index1 = index2;
             index2 = hold;
         }
+        // Swap models and views
         TaskModel tModel2 = cModel.get(index2);
         TaskModel tModel1 = cModel.get(index1);
         TaskView tView2 = cView.remove(index2);
@@ -73,6 +110,8 @@ public class Manager {
         cView.add(tView2, index2);
         cModel.add(index1, tModel1);
         cModel.add(index2, tModel2);
+        // Inform the column view that a change has occurred
+        cView.revalidate();
         return true;
     }
 }

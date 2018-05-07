@@ -5,15 +5,23 @@ import java.awt.*;
 import javax.swing.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
+/**
+ * Visually represents a task in a project
+ */
 public class TaskView extends JPanel {
+    // Reference to task data
     private TaskModel task;
+    // Text to display
     private JLabel title, description, due;
 
+    // Give task text labels a minimum size
     private static final Dimension DEFAULT_MIN_SIZE = new Dimension(128, 18);
 
     public TaskView() {
         super(new GridLayout(3, 1, 2, 1), true);
+        // Give the task an outline
         setBorder(BorderFactory.createLineBorder(Color.black));
+        // Initial label settings
         title = new JLabel("New Task", JLabel.CENTER);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setMinimumSize(DEFAULT_MIN_SIZE);
@@ -26,11 +34,10 @@ public class TaskView extends JPanel {
         due.setAlignmentX(Component.CENTER_ALIGNMENT);
         due.setMinimumSize(DEFAULT_MIN_SIZE);
         add(due);
-
     }
     /**
      * Recommended constructor for TaskView objects.
-     * @param task A TaskModel whose data this TaskView is to represent.
+     * @param task A {@link TaskModel} whose data this TaskView is to represent.
      */
     public TaskView(TaskModel task) {
         this();
@@ -44,6 +51,7 @@ public class TaskView extends JPanel {
     public TaskModel getTask() {
         return task;
     }
+
     /**
      * Ensures that the text displayed by this TaskView object is up to date.
      */

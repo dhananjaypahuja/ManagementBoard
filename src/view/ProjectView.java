@@ -3,7 +3,11 @@ package view;
 import model.*;
 import javax.swing.*;
 
+/**
+ * Visually represents a project.
+ */
 public class ProjectView extends JPanel {
+    // Reference to project data
     private ProjectModel project;
 
     public ProjectView() {
@@ -13,7 +17,7 @@ public class ProjectView extends JPanel {
     }
     /**
      * Recommended constructor for ProjectView objects.
-     * @param project A ProjectModel object whose data this ProjectView is to represent.
+     * @param project A {@link ProjectModel} object whose data this ProjectView is to represent.
      */
     public ProjectView(ProjectModel project) {
         super(true);
