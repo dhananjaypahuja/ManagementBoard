@@ -71,16 +71,18 @@ public class Manager {
             index2 = hold;
         }
         // Swap models and views
-        ColumnModel cModel2 = pModel.get(index2);
-        ColumnModel cModel1 = pModel.get(index1);
-        ColumnView cView2 = pView.remove(index2);
-        ColumnView cView1 = pView.remove(index1);
-        pView.add(cView1, index1);
-        pView.add(cView2, index2);
-        pModel.add(index1, cModel1);
-        pModel.add(index2, cModel2);
+        ColumnModel cModel2 = pModel.remove(index2);
+        ColumnModel cModel1 = pModel.remove(index1);
+        ColumnView cView2 = (ColumnView) pView.getComponent(index2);
+        pView.remove(index2);
+        ColumnView cView1 = (ColumnView) pView.getComponent(index1);
+        pView.remove(index1);
+        pView.add(cView2, index1);
+        pView.add(cView1, index2);
+        pModel.add(index1, cModel2);
+        pModel.add(index2, cModel1);
         // Inform the project view that a change has occurred
-        cView.revalidate();
+        pView.revalidate();
         return true;
     }
     /**
@@ -102,14 +104,16 @@ public class Manager {
             index2 = hold;
         }
         // Swap models and views
-        TaskModel tModel2 = cModel.get(index2);
-        TaskModel tModel1 = cModel.get(index1);
-        TaskView tView2 = cView.remove(index2);
-        TaskView tView1 = cView.remove(index1);
-        cView.add(tView1, index1);
-        cView.add(tView2, index2);
-        cModel.add(index1, tModel1);
-        cModel.add(index2, tModel2);
+        TaskModel tModel2 = cModel.remove(index2);
+        TaskModel tModel1 = cModel.remove(index1);
+        TaskView tView2 = (TaskView) cView.getComponent(index2);
+        cView.remove(index2);
+        TaskView tView1 = (TaskView) cView.getComponent(index1);
+        cView.remove(index1);
+        cView.add(tView2, index1);
+        cView.add(tView1, index2);
+        cModel.add(index1, tModel2);
+        cModel.add(index2, tModel1);
         // Inform the column view that a change has occurred
         cView.revalidate();
         return true;
