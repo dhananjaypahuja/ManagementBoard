@@ -4,7 +4,7 @@ import model.*;
 import java.awt.*;
 import java.util.Date;
 import javax.swing.*;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
+import javax.swing.border.*;
 
 /**
  * Visually represents a task in a project
@@ -30,7 +30,7 @@ public class TaskView extends JPanel {
 
         this.task = task;
         // Give the task an outline
-        setBorder(BorderFactory.createLineBorder(Color.black));
+        setBorder(new CompoundBorder(new EmptyBorder(2, 2, 2, 2), new LineBorder(Color.BLACK)));
         // Initial label settings
         title = new JLabel(task.getTitle(), JLabel.CENTER);
         title.setAlignmentX(Component.CENTER_ALIGNMENT);

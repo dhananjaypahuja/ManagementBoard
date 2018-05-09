@@ -106,14 +106,17 @@ public class Manager {
         // Swap models and views
         TaskModel tModel2 = cModel.remove(index2);
         TaskModel tModel1 = cModel.remove(index1);
+        // Shift view indexing to account for column title label
+        index2 ++;
+        index1 ++;
         TaskView tView2 = (TaskView) cView.getComponent(index2);
         cView.remove(index2);
         TaskView tView1 = (TaskView) cView.getComponent(index1);
         cView.remove(index1);
         cView.add(tView2, index1);
         cView.add(tView1, index2);
-        cModel.add(index1, tModel2);
-        cModel.add(index2, tModel1);
+        cModel.add(index1-1, tModel2);
+        cModel.add(index2-1, tModel1);
         // Inform the column view that a change has occurred
         cView.revalidate();
         return true;
