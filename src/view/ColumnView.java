@@ -11,9 +11,7 @@ public class ColumnView extends JPanel {
     private ColumnModel column;
 
     public ColumnView() {
-        super(true);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setColumn(null);
+        this(new ColumnModel());
     }
     /**
      * Recommended constructor for ColumnView objects.

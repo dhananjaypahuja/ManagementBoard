@@ -11,9 +11,7 @@ public class ProjectView extends JPanel {
     private ProjectModel project;
 
     public ProjectView() {
-        super(true);
-        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-        setProject(null);
+        this(new ProjectModel());
     }
     /**
      * Recommended constructor for ProjectView objects.
