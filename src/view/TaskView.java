@@ -13,7 +13,7 @@ public class TaskView extends JPanel {
     // Reference to task data
     private TaskModel task;
     // Text to display
-    private JLabel title, description, due;
+    private JTextArea title, description, due;
 
     // Give task text labels a minimum size
     private static final Dimension DEFAULT_MIN_SIZE = new Dimension(128, 18);
@@ -32,19 +32,28 @@ public class TaskView extends JPanel {
         // Give the task an outline
         setBorder(new CompoundBorder(new EmptyBorder(2, 2, 2, 2), new LineBorder(Color.BLACK)));
         // Initial label settings
-        title = new JLabel(task.getTitle(), JLabel.CENTER);
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-        title.setMinimumSize(DEFAULT_MIN_SIZE);
+        title = makeTextArea(task.getTitle());
+        title.setFont(new Font("Sans-Serif", Font.BOLD, 14));
+        description = makeTextArea(task.getDescription());
+        description.setFont(new Font("Sans-Serif", Font.PLAIN, 12));
+        due = makeTextArea(task.getDue().toString());
+        due.setFont(new Font("Sans-Serif", Font.ITALIC, 12));
         add(title);
-        description = new JLabel(task.getDescription(), JLabel.LEFT);
-        description.setAlignmentX(Component.LEFT_ALIGNMENT);
-        description.setMinimumSize(DEFAULT_MIN_SIZE);
         add(description);
-        due = new JLabel(task.getDue().toString(), JLabel.CENTER);
-        due.setAlignmentX(Component.CENTER_ALIGNMENT);
-        due.setMinimumSize(DEFAULT_MIN_SIZE);
         add(due);
         setTask(task);
+    }
+
+    private static JTextArea makeTextArea(String text) {
+        JTextArea area = new JTextArea(text);
+        area.setLineWrap(true);
+        area.setWrapStyleWord(true);
+        area.setEditable(false);
+        area.setMinimumSize(DEFAULT_MIN_SIZE);
+        area.setPreferredSize(DEFAULT_MIN_SIZE);
+        area.setAlignmentX(Component.CENTER_ALIGNMENT);
+        area.setBorder(new EmptyBorder(2, 2, 2, 2));
+        return area;
     }
 
     public void setTask(TaskModel task) {
