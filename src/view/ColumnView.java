@@ -41,7 +41,6 @@ public class ColumnView extends JPanel {
         for (TaskModel task : column)
             subpanel.add(new TaskView(task));
         ((JScrollPane) getComponent(1)).setViewportView(subpanel);
-        subcomponents(this, 1);
     }
     public ColumnModel getColumn() {
         return column;
@@ -49,15 +48,5 @@ public class ColumnView extends JPanel {
 
     public JPanel getSubpanel() {
         return subpanel;
-    }
-
-    private static void subcomponents(Container c, int spaces) {
-        for (Component d : c.getComponents()) {
-            for (int i = 0; i < spaces; i ++)
-                System.out.print("  ");
-            System.out.println(d.toString());
-            if (d instanceof Container)
-                subcomponents((Container) d, spaces + 1);
-        }
     }
 }
