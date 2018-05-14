@@ -14,18 +14,13 @@ public class Main {
 //        dumbExample();
         JFrame frame = new JFrame("Task Board");
         JPanel jPanel = new JPanel();
-        jPanel.setLayout(new BorderLayout());
+        jPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
         frame.setBounds(0, 0, 500, 500);
 
         JLabel pLabel = new JLabel("Select Project");
-        pLabel.setVerticalTextPosition(JLabel.TOP);
-        pLabel.setHorizontalTextPosition(JLabel.LEFT);
-        frame.getContentPane().add(pLabel);
-
-        //Project list scroll
-        JScrollPane pScroll = new JScrollPane();
-        frame.getContentPane().add(pScroll);
-
+        JScrollPane pScroll = new JScrollPane(); //Project list scroll
         JButton loadButton = new JButton("Load");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
@@ -33,12 +28,32 @@ public class Main {
         JButton newPButton = new JButton("Create New");
         JButton logOutButton = new JButton("Log Out");
 
-        jPanel.add(loadButton);
-        jPanel.add(editButton);
-        jPanel.add(deleteButton);
-        jPanel.add(saveButton);
-        jPanel.add(newPButton);
-        jPanel.add(logOutButton);
+        ProjectView projView = new ProjectView();//gridx 0 gridy 1
+        projView.setMinimumSize(new Dimension(128, 128));
+        projView.setProject(new ProjectModel());
+
+        //specify diff grid x (changes) 0-6 grid y is 0
+        c.gridx = 0;
+        c.gridy = 0;
+        jPanel.add(pLabel, c);
+        c.gridx = 1;
+        jPanel.add(pScroll, c);
+        c.gridx = 2;
+        jPanel.add(newPButton, c);
+        c.gridx = 3;
+        jPanel.add(saveButton, c);
+        c.gridx = 4;
+        jPanel.add(editButton, c);
+        c.gridx = 5;
+        jPanel.add(loadButton, c);
+        c.gridx = 6;
+        jPanel.add(deleteButton, c);
+        c.gridx = 7;
+        jPanel.add(logOutButton, c);
+        c.gridwidth = 8;
+        c.gridx = 0;
+        c.gridy = 1;
+        jPanel.add(projView, c);
 
 
         jPanel.setVisible(true);
