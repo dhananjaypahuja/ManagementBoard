@@ -16,7 +16,7 @@ public class FileIO {
     /**
      * Reads a {@link ProjectModel} from a file. The desired object must appear on its own
      * in the file under this implementation.
-     * @param filepath The file containing the {@link ProjectModel}.
+     * @param file The file containing the {@link ProjectModel}.
      * @return The {@link ProjectModel} in the file, if any.
      */
     public static ProjectModel read(File file) throws IOException, ClassNotFoundException {
@@ -40,7 +40,7 @@ public class FileIO {
     }
     /**
      * Writes a {@link ProjectModel} to a file. Any pre-existing data will be overwritten.
-     * @param filepath The file to which to write the {@link ProjectModel}.
+     * @param file The file to which to write the {@link ProjectModel}.
      */
     public static void write(File file, ProjectModel project) throws IOException {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
