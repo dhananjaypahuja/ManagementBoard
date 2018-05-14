@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import view.*;
+
+import java.io.IOException;
 import java.util.Date;
 import javax.swing.*;
 
@@ -44,6 +46,13 @@ public class Main {
             }
             // Demonstrate task swapping
             Manager.swapTasks((ColumnView) pView.getComponent(0), 0, 1);
+        }
+
+        try {
+            FileIO.write("./example.proj", pModel);
+            System.out.println(FileIO.read("./example.proj").toString());
+        } catch(Exception e) {
+            e.printStackTrace();
         }
     }
 }
