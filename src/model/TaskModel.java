@@ -7,7 +7,7 @@ import java.util.Date;
  * Represents the model for a task in a project.
  */
 public class TaskModel implements Serializable {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private String title, description;
     private Date due;
