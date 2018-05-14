@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import view.*;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.Date;
 import javax.swing.*;
@@ -10,7 +11,35 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         // TODO main process implementation
-        dumbExample();
+//        dumbExample();
+        JFrame frame = new JFrame("Task Board");
+        frame.setBounds(0, 0, 500, 500);
+
+        JLabel pLabel = new JLabel("Select Project");
+        pLabel.setVerticalTextPosition(JLabel.TOP);
+        pLabel.setHorizontalTextPosition(JLabel.LEFT);
+        frame.getContentPane().add(pLabel);
+
+        //Project list scroll
+        JScrollPane pScroll = new JScrollPane();
+        frame.getContentPane().add(pScroll);
+
+        JButton loadButton = new JButton("Load");
+        JButton editButton = new JButton("Edit");
+        JButton deleteButton = new JButton("Delete");
+        JButton saveButton = new JButton("Save");
+        JButton newPButton = new JButton("Create New");
+        JButton logOutButton = new JButton("Log Out");
+
+        frame.getContentPane().add(loadButton);
+        frame.getContentPane().add(editButton);
+        frame.getContentPane().add(deleteButton);
+        frame.getContentPane().add(saveButton);
+        frame.getContentPane().add(newPButton);
+        frame.getContentPane().add(logOutButton);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
     
     public static void dumbExample() {

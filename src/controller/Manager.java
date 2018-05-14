@@ -88,7 +88,7 @@ public class Manager {
     }
     /**
      * Swaps two tasks in a column view and model.
-     * @param pView The {@link ColumnView} of the column whose tasks should be swapped.
+     * @param cView The {@link ColumnView} of the column whose tasks should be swapped.
      * @param index1 The position of one task to swap.
      * @param index2 The position of the other task to swap.
      * @return Whether a change occurred.
