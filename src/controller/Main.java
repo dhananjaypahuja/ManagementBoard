@@ -13,6 +13,8 @@ public class Main {
         // TODO main process implementation
 //        dumbExample();
         JFrame frame = new JFrame("Task Board");
+        JPanel jPanel = new JPanel();
+        jPanel.setLayout(new BorderLayout());
         frame.setBounds(0, 0, 500, 500);
 
         JLabel pLabel = new JLabel("Select Project");
@@ -31,13 +33,16 @@ public class Main {
         JButton newPButton = new JButton("Create New");
         JButton logOutButton = new JButton("Log Out");
 
-        frame.getContentPane().add(loadButton);
-        frame.getContentPane().add(editButton);
-        frame.getContentPane().add(deleteButton);
-        frame.getContentPane().add(saveButton);
-        frame.getContentPane().add(newPButton);
-        frame.getContentPane().add(logOutButton);
+        jPanel.add(loadButton);
+        jPanel.add(editButton);
+        jPanel.add(deleteButton);
+        jPanel.add(saveButton);
+        jPanel.add(newPButton);
+        jPanel.add(logOutButton);
 
+
+        jPanel.setVisible(true);
+        frame.add(jPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
