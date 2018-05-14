@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Represents the model for a task in a project.
  */
-public class TaskModel implements Serializable {
+public class TaskModel implements Serializable, Comparable<TaskModel> {
     private static final long serialVersionUID = 1L;
 
     private String title, description;
@@ -45,5 +45,10 @@ public class TaskModel implements Serializable {
      */
     public boolean isDue() {
         return due.after(new Date());
+    }
+
+    @Override
+    public int compareTo(TaskModel t) {
+        return due.compareTo(t.getDue());
     }
 }
