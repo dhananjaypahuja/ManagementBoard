@@ -37,7 +37,8 @@ public class Main {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Edit", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(null, "Edit", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+                Windows taskWindow = new Windows(Windows.WindowType.CREATETASK);
             }
         });
 
@@ -57,11 +58,12 @@ public class Main {
             }
         });
 
-        JButton newProjButton = new JButton("Create New");
+        JButton newProjButton = new JButton("Create New Project");
         newProjButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Create New", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(null, "Create New", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+                Windows taskWindow = new Windows(Windows.WindowType.CREATEPROJECT);
             }
         });
 
@@ -69,7 +71,8 @@ public class Main {
         logOutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Log Out", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(null, "Log Out", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+                Windows taskWindow = new Windows(Windows.WindowType.LOGIN);
             }
         });
 
