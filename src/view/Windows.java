@@ -117,12 +117,11 @@ public class Windows {
         JTextField nameField = new JTextField();
         JLabel Columns = new JLabel("Columns:");
         JButton columnButton = new JButton("+");
-        columnButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //adds new field asking title of column with a - button to delete colunm
-            }
-        });
+
+        JPanel columnsPanel = new JPanel();
+        columnsPanel.setLayout(new BoxLayout(columnsPanel, BoxLayout.X_AXIS));
+
+        columnButton.addActionListener(new AddColumnListener(columnsPanel, panel));
 
         c.gridx = 0;
         c.gridy = 0;
@@ -134,6 +133,11 @@ public class Windows {
         panel.add(Columns, c);
         c.gridx = 1;
         panel.add(columnButton, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        c.gridwidth = 3;
+        c.fill = GridBagConstraints.NONE;
+        panel.add(columnsPanel, c);
 
         panel.setVisible(true);
         popWindow.add(panel);
@@ -141,4 +145,36 @@ public class Windows {
         popWindow.setVisible(true);
     }
 
+    private static class AddColumnListener implements ActionListener {
+        JPanel columns, mainPanel;
+        public AddColumnListener(JPanel columns, JPanel mainPanel) {
+            this.columns = columns;
+            this.mainPanel = mainPanel;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            //adds new field asking title of column with a - button to delete colunm
+            JPanel column = new JPanel();
+            column.setLayout(new BoxLayout(column, BoxLayout.Y_AXIS));
+            column.add(new JTextField());
+            JButton remove = new JButton("−");
+            remove.addActionListener(new RemoveColumnListener(columns, column, mainPanel));
+            column.add(remove);
+            columns.add(column);
+            mainPanel.revalidate();
+        }
+    }
+    private static class RemoveColumnListener implements ActionListener {
+        JPanel columns, column, mainPanel;
+        public RemoveColumnListener(JPanel columns, JPanel column, JPanel mainPanel) {
+            this.columns = columns;
+            this.column = column;
+            this.mainPanel = mainPanel;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            columns.remove(column);
+            mainPanel.revalidate();
+        }
+    }
 }
