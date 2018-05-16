@@ -24,6 +24,7 @@ public class Main {
 
         JLabel pLabel = new JLabel("Select Project");
         JScrollPane pScroll = new JScrollPane(); //Project list scroll
+        ProjectView projView = new ProjectView();//gridx 0 gridy 1
 
         JButton loadButton = new JButton("Load");
         loadButton.addActionListener(new ActionListener() {
@@ -59,13 +60,7 @@ public class Main {
         });
 
         JButton newProjButton = new JButton("Create New Project");
-        newProjButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Create New", "Test Box", JOptionPane.INFORMATION_MESSAGE);
-                Windows taskWindow = new Windows(Windows.WindowType.CREATEPROJECT);
-            }
-        });
+        newProjButton.addActionListener(new CreateWindowListener(Windows.WindowType.CREATEPROJECT, projView));
 
         JButton logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(new ActionListener() {
@@ -75,8 +70,6 @@ public class Main {
                 Windows taskWindow = new Windows(Windows.WindowType.LOGIN);
             }
         });
-
-        ProjectView projView = new ProjectView();//gridx 0 gridy 1
 
         TaskModel tModel1a = new TaskModel("Task 1a", "Description 1a", new Date());
         TaskModel tModel1b = new TaskModel("Task 1b", "Description 1b", new Date());
@@ -115,6 +108,19 @@ public class Main {
         frame.add(jPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    static class CreateWindowListener implements ActionListener {
+        private JPanel callback;
+        private Windows.WindowType type;
+        public CreateWindowListener(Windows.WindowType type, JPanel callback) {
+            this.callback = callback;
+            this.type = type;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Windows(type, callback);
+        }
     }
 }
     

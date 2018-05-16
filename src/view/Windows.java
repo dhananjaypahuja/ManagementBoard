@@ -1,5 +1,6 @@
 package view;
 
+import model.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,11 +13,13 @@ public class Windows {
     }
 
     JFrame popWindow;
-    JPanel panel;
+    JPanel panel, callback;
     GridBagConstraints c;
 
-    public Windows(WindowType popType) {
+    public Windows(WindowType popType) { this(popType, null); }
+    public Windows(WindowType popType, JPanel callback) {
         this.popWindow = new JFrame();
+        this.callback = callback;
         popWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
@@ -113,15 +116,21 @@ public class Windows {
     }
 
     private void newProj() {
+        if (!(callback instanceof ProjectView))
+            throw new RuntimeException("Requires reference to a ProjectView");
         JLabel projName = new JLabel("Name:");
         JTextField nameField = new JTextField();
         JLabel Columns = new JLabel("Columns:");
         JButton columnButton = new JButton("+");
+        JButton confirm = new JButton("Confirm");
+        JButton cancel = new JButton("Cancel");
 
         JPanel columnsPanel = new JPanel();
         columnsPanel.setLayout(new BoxLayout(columnsPanel, BoxLayout.X_AXIS));
 
         columnButton.addActionListener(new AddColumnListener(columnsPanel, panel));
+        confirm.addActionListener(new CreateProjectListener(nameField, (ProjectView) callback, columnsPanel, popWindow));
+        cancel.addActionListener(new CancelListener(popWindow));
 
         c.gridx = 0;
         c.gridy = 0;
@@ -138,6 +147,12 @@ public class Windows {
         c.gridwidth = 3;
         c.fill = GridBagConstraints.NONE;
         panel.add(columnsPanel, c);
+        c.gridwidth = 1;
+        c.gridx = 0;
+        c.gridy = 3;
+        panel.add(cancel, c);
+        c.gridx = 1;
+        panel.add(confirm, c);
 
         panel.setVisible(true);
         popWindow.add(panel);
@@ -175,6 +190,33 @@ public class Windows {
         public void actionPerformed(ActionEvent e) {
             columns.remove(column);
             mainPanel.revalidate();
+        }
+    }
+    private static class CancelListener implements ActionListener {
+        private JFrame frame;
+        public CancelListener(JFrame frame) { this.frame = frame; }
+        @Override public void actionPerformed(ActionEvent e) { frame.dispose(); }
+    }
+    private static class CreateProjectListener implements ActionListener {
+        JTextField name;
+        ProjectView pView;
+        JPanel columns;
+        JFrame frame;
+        public CreateProjectListener(JTextField name, ProjectView pView, JPanel columns, JFrame frame) {
+            this.name = name;
+            this.pView = pView;
+            this.columns = columns;
+            this.frame = frame;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            ProjectModel proj = new ProjectModel(name.getText());
+            Component[] components = columns.getComponents();
+            for (Component c : components)
+                proj.add(new ColumnModel(((JTextField) ((Container) c).getComponent(0)).getText()));
+            pView.setProject(proj);
+            pView.revalidate();
+            frame.dispose();
         }
     }
 }
