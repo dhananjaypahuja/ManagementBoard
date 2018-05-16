@@ -13,7 +13,7 @@ public class Windows {
     }
 
     JFrame popWindow;
-    JPanel panel, callback;
+    JPanel panel, callback; // not quite a callback, but it accomplishes the same thing
     GridBagConstraints c;
 
     public Windows(WindowType popType) { this(popType, null); }
@@ -160,6 +160,7 @@ public class Windows {
         popWindow.setVisible(true);
     }
 
+    // Use this to add a column.
     private static class AddColumnListener implements ActionListener {
         JPanel columns, mainPanel;
         public AddColumnListener(JPanel columns, JPanel mainPanel) {
@@ -179,6 +180,7 @@ public class Windows {
             mainPanel.revalidate();
         }
     }
+    // Connect this to a button under a column in a project editor. See above.
     private static class RemoveColumnListener implements ActionListener {
         JPanel columns, column, mainPanel;
         public RemoveColumnListener(JPanel columns, JPanel column, JPanel mainPanel) {
@@ -192,11 +194,13 @@ public class Windows {
             mainPanel.revalidate();
         }
     }
+    // Hook this up to a cancel button to close the window and cancel its action.
     private static class CancelListener implements ActionListener {
         private JFrame frame;
         public CancelListener(JFrame frame) { this.frame = frame; }
         @Override public void actionPerformed(ActionEvent e) { frame.dispose(); }
     }
+    // Use this to Complete the action of creating a project.
     private static class CreateProjectListener implements ActionListener {
         JTextField name;
         ProjectView pView;
