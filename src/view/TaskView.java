@@ -29,8 +29,9 @@ public class TaskView extends JPanel {
         super(new GridLayout(3, 1, 2, 1), true);
 
         this.task = task;
-        // Give the task an outline
+        // Give the task an outline and background
         setBorder(new CompoundBorder(new EmptyBorder(2, 2, 2, 2), new LineBorder(Color.BLACK)));
+        setBackground(task.getColor());
         // Initial label settings
         title = makeTextArea(task.getTitle());
         title.setFont(new Font("Sans-Serif", Font.BOLD, 14));
@@ -53,6 +54,7 @@ public class TaskView extends JPanel {
         area.setPreferredSize(DEFAULT_MIN_SIZE);
         area.setAlignmentX(Component.CENTER_ALIGNMENT);
         area.setBorder(new EmptyBorder(2, 2, 2, 2));
+        area.setOpaque(false);
         return area;
     }
 
