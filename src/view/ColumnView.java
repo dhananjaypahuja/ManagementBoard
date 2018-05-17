@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
 
@@ -25,6 +26,9 @@ public class ColumnView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setColumn(column);
         setBorder(new CompoundBorder(new LineBorder(Color.BLACK), new EmptyBorder(2, 2, 2, 2)));
+        JButton addTask = new JButton("+");
+        addTask.addActionListener(new AddTaskListener(this));
+        add(addTask);
     }
 
     public void setColumn(ColumnModel column) {
@@ -48,5 +52,16 @@ public class ColumnView extends JPanel {
 
     public JPanel getSubpanel() {
         return subpanel;
+    }
+
+    private static class AddTaskListener implements ActionListener {
+        private ColumnView cView;
+        AddTaskListener(ColumnView column) {
+            cView = column;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            new Windows(Windows.WindowType.CREATETASK, cView);
+        }
     }
 }

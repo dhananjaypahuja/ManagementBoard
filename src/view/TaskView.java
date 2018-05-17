@@ -54,7 +54,7 @@ public class TaskView extends JPanel {
         area.setPreferredSize(DEFAULT_MIN_SIZE);
         area.setAlignmentX(Component.CENTER_ALIGNMENT);
         area.setBorder(new EmptyBorder(2, 2, 2, 2));
-        area.setOpaque(false);
+        area.setBackground(new Color(255, 255, 255, 127));
         return area;
     }
 

@@ -5,6 +5,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.*;
+import java.util.*;
 
 public class Windows {
 
@@ -57,6 +59,12 @@ public class Windows {
         JScrollPane statusPanel = new JScrollPane();
         JLabel taskDate = new JLabel("Due Date:");
         JTextField dateField = new JTextField();
+        JColorChooser colorChooser = new JColorChooser(Color.WHITE);
+        
+        JButton confirm = new JButton("Confirm");
+        confirm.addActionListener(new CreateTaskListener((ColumnView) callback, nameField, descriptionField, dateField, colorChooser, popWindow));
+        JButton cancel = new JButton("Cancel");
+        cancel.addActionListener(new CancelListener(popWindow));
 
         c.gridx = 0;
         c.gridy = 0;
@@ -78,6 +86,13 @@ public class Windows {
         panel.add(taskDate, c);
         c.gridx = 1;
         panel.add(dateField, c);
+        c.gridy = 5;
+        panel.add(confirm, c);
+        c.gridx = 0;
+        panel.add(cancel, c);
+        c.gridy = 4;
+        c.gridwidth = 3;
+        panel.add(colorChooser, c);
 
         panel.setVisible(true);
         popWindow.add(panel);
@@ -160,6 +175,32 @@ public class Windows {
         popWindow.setVisible(true);
     }
 
+    // Use this to create a task.
+    private static class CreateTaskListener implements ActionListener {
+        ColumnView cView;
+        JTextField title, description, date;
+        JColorChooser color;
+        JFrame frame;
+        public CreateTaskListener(ColumnView cView, JTextField title, JTextField description, JTextField date, JColorChooser color, JFrame frame) {
+            this.cView = cView;
+            this.title = title;
+            this.description = description;
+            this.date = date;
+            this.color = color;
+            this.frame = frame;
+        }
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                TaskModel tModel = new TaskModel(title.getText(), description.getText(), DateFormat.getDateInstance().parse(date.getText()), color.getColor());
+                cView.getColumn().add(tModel);
+                cView.getSubpanel().add(new TaskView(tModel));
+            } catch(ParseException pe) {
+                throw new RuntimeException("Bad date format");
+            }
+            frame.dispose();
+        }
+    }
     // Use this to add a column.
     private static class AddColumnListener implements ActionListener {
         JPanel columns, mainPanel;
