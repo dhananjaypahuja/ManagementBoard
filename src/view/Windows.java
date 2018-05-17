@@ -50,7 +50,11 @@ public class Windows {
     }
 
     private void newTask() {
+        popWindow.setMinimumSize(new Dimension(602, 528));
+        popWindow.setTitle("New Task");
+
         JLabel taskName = new JLabel("Task Name:");
+        taskName.setMinimumSize(new Dimension(120, 12));
         JTextField nameField = new JTextField();
         JLabel taskDescription = new JLabel("Description:");
         JTextField descriptionField = new JTextField();

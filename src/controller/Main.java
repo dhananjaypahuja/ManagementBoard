@@ -20,7 +20,7 @@ public class Main {
         jPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        frame.setBounds(0, 0, 500, 500);
+        frame.setBounds(0, 0, 700, 500);
 
         JLabel pLabel = new JLabel("Select Project");
         JScrollPane pScroll = new JScrollPane(); //Project list scroll

@@ -28,7 +28,7 @@ public class ColumnView extends JPanel {
         setBorder(new CompoundBorder(new LineBorder(Color.BLACK), new EmptyBorder(2, 2, 2, 2)));
         JButton addTask = new JButton("+");
         addTask.addActionListener(new AddTaskListener(this));
-        add(addTask);
+        add(addTask, 1);
     }
 
     public void setColumn(ColumnModel column) {
