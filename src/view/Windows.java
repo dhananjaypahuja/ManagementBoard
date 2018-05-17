@@ -58,11 +58,24 @@ public class Windows {
         JLabel taskStatus = new JLabel("Status:");
         JScrollPane statusPanel = new JScrollPane();
         JLabel taskDate = new JLabel("Due Date:");
-        JTextField dateField = new JTextField();
+
+        // --- date ---
+        Calendar calendar = Calendar.getInstance();
+        Date initDate = calendar.getTime();
+        calendar.add(Calendar.YEAR, -50);
+        Date earliestDate = calendar.getTime();
+        calendar.add(Calendar.YEAR, 100);
+        Date now = calendar.getTime();
+        SpinnerDateModel dateModel = new SpinnerDateModel(initDate, earliestDate, now, Calendar.YEAR);
+        JSpinner dateSpinner = new JSpinner(dateModel);
+        dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy"));
+        // JTextField dateField = new JTextField();
+        // --- date ---
+
         JColorChooser colorChooser = new JColorChooser(Color.WHITE);
         
         JButton confirm = new JButton("Confirm");
-        confirm.addActionListener(new CreateTaskListener((ColumnView) callback, nameField, descriptionField, dateField, colorChooser, popWindow));
+        confirm.addActionListener(new CreateTaskListener((ColumnView) callback, nameField, descriptionField, dateModel, colorChooser, popWindow));
         JButton cancel = new JButton("Cancel");
         cancel.addActionListener(new CancelListener(popWindow));
 
@@ -85,7 +98,7 @@ public class Windows {
         c.gridy = 3;
         panel.add(taskDate, c);
         c.gridx = 1;
-        panel.add(dateField, c);
+        panel.add(/*dateField*/dateSpinner, c);
         c.gridy = 5;
         panel.add(confirm, c);
         c.gridx = 0;
@@ -178,10 +191,11 @@ public class Windows {
     // Use this to create a task.
     private static class CreateTaskListener implements ActionListener {
         ColumnView cView;
-        JTextField title, description, date;
+        JTextField title, description;
+        SpinnerDateModel date;
         JColorChooser color;
         JFrame frame;
-        public CreateTaskListener(ColumnView cView, JTextField title, JTextField description, JTextField date, JColorChooser color, JFrame frame) {
+        public CreateTaskListener(ColumnView cView, JTextField title, JTextField description, SpinnerDateModel date, JColorChooser color, JFrame frame) {
             this.cView = cView;
             this.title = title;
             this.description = description;
@@ -191,13 +205,9 @@ public class Windows {
         }
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                TaskModel tModel = new TaskModel(title.getText(), description.getText(), DateFormat.getDateInstance().parse(date.getText()), color.getColor());
-                cView.getColumn().add(tModel);
-                cView.getSubpanel().add(new TaskView(tModel));
-            } catch(ParseException pe) {
-                throw new RuntimeException("Bad date format");
-            }
+            TaskModel tModel = new TaskModel(title.getText(), description.getText(), date.getDate(), color.getColor());
+            cView.getColumn().add(tModel);
+            cView.getSubpanel().add(new TaskView(tModel));
             frame.dispose();
         }
     }
