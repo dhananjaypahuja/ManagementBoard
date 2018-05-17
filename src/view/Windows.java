@@ -59,7 +59,6 @@ public class Windows {
         JScrollPane statusPanel = new JScrollPane();
         JLabel taskDate = new JLabel("Due Date:");
 
-        // --- date ---
         Calendar calendar = Calendar.getInstance();
         Date initDate = calendar.getTime();
         calendar.add(Calendar.YEAR, -50);
@@ -69,8 +68,6 @@ public class Windows {
         SpinnerDateModel dateModel = new SpinnerDateModel(initDate, earliestDate, now, Calendar.YEAR);
         JSpinner dateSpinner = new JSpinner(dateModel);
         dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy"));
-        // JTextField dateField = new JTextField();
-        // --- date ---
 
         JColorChooser colorChooser = new JColorChooser(Color.WHITE);
         
@@ -98,7 +95,7 @@ public class Windows {
         c.gridy = 3;
         panel.add(taskDate, c);
         c.gridx = 1;
-        panel.add(/*dateField*/dateSpinner, c);
+        panel.add(dateSpinner, c);
         c.gridy = 5;
         panel.add(confirm, c);
         c.gridx = 0;
@@ -206,8 +203,7 @@ public class Windows {
         @Override
         public void actionPerformed(ActionEvent e) {
             TaskModel tModel = new TaskModel(title.getText(), description.getText(), date.getDate(), color.getColor());
-            cView.getColumn().add(tModel);
-            cView.getSubpanel().add(new TaskView(tModel));
+            controller.Manager.addTask(cView, tModel, 0);
             frame.dispose();
         }
     }

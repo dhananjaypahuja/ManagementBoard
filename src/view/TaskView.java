@@ -54,7 +54,7 @@ public class TaskView extends JPanel {
         area.setPreferredSize(DEFAULT_MIN_SIZE);
         area.setAlignmentX(Component.CENTER_ALIGNMENT);
         area.setBorder(new EmptyBorder(2, 2, 2, 2));
-        area.setBackground(new Color(255, 255, 255, 127));
+        area.setBackground(new Color(255, 255, 255, 63));
         return area;
     }
 
@@ -72,6 +72,6 @@ public class TaskView extends JPanel {
     public void updateLabels() {
         title.setText(task.getTitle());
         description.setText(task.getDescription());
-        due.setText(task.getDue().toString());
+        due.setText(java.text.DateFormat.getDateInstance().format(task.getDue()));
     }
 }

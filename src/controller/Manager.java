@@ -20,6 +20,7 @@ public class Manager {
     public static void addColumn(ProjectView pView, ColumnModel cModel, int index) {
         pView.getProject().add(index, cModel);
         pView.add(new ColumnView(cModel), index);
+        pView.revalidate();
     }
     /**
      * Adds a task to a column view and model.
@@ -29,7 +30,8 @@ public class Manager {
      */
     public static void addTask(ColumnView cView, TaskModel tModel, int index) {
         cView.getColumn().add(index, tModel);
-        cView.add(new TaskView(tModel), index);
+        cView.getSubpanel().add(new TaskView(tModel), index);
+        cView.revalidate();
     }
     /**
      * Removes a column from a project view and model.
@@ -40,6 +42,7 @@ public class Manager {
     public static ColumnModel removeColumn(ProjectView pView, int index) {
         ColumnModel col = pView.getProject().remove(index);
         pView.remove(index);
+        pView.revalidate();
         return col;
     }
     /**
@@ -50,7 +53,8 @@ public class Manager {
      */
     public static TaskModel removeTask(ColumnView cView, int index) {
         TaskModel task = cView.getColumn().remove(index);
-        cView.remove(index);
+        cView.getSubpanel().remove(index);
+        cView.revalidate();
         return task;
     }
     /**

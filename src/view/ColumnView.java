@@ -42,8 +42,10 @@ public class ColumnView extends JPanel {
             add(new JScrollPane());
         subpanel = new JPanel();
         subpanel.setLayout(new BoxLayout(subpanel, BoxLayout.Y_AXIS));
+        subpanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         for (TaskModel task : column)
             subpanel.add(new TaskView(task));
+        subpanel.add(Box.createVerticalGlue());
         ((JScrollPane) getComponent(1)).setViewportView(subpanel);
     }
     public ColumnModel getColumn() {
