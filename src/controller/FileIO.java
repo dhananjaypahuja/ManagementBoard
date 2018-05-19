@@ -62,7 +62,7 @@ public class FileIO {
     }
 
     /**
-     * SUbclass serializable to save valid userhashcodes and project access
+     * Subclass serializable to save valid userhashcodes and project access
      */
     class UserInfo extends ArrayList<String> {
         private static final long serialVersionUID = 1L;
