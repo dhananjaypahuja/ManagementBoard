@@ -64,12 +64,12 @@ public class Windows {
         JLabel taskDate = new JLabel("Due Date:");
 
         Calendar calendar = Calendar.getInstance();
-        Date initDate = calendar.getTime();
-        calendar.add(Calendar.YEAR, -50);
-        Date earliestDate = calendar.getTime();
-        calendar.add(Calendar.YEAR, 100);
         Date now = calendar.getTime();
-        SpinnerDateModel dateModel = new SpinnerDateModel(initDate, earliestDate, now, Calendar.YEAR);
+        calendar.add(Calendar.YEAR, -100);
+        Date earliestDate = calendar.getTime();
+        calendar.add(Calendar.YEAR, 200);
+        Date latestDate = calendar.getTime();
+        SpinnerDateModel dateModel = new SpinnerDateModel(now, earliestDate, latestDate, Calendar.YEAR);
         JSpinner dateSpinner = new JSpinner(dateModel);
         dateSpinner.setEditor(new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy"));
 
@@ -246,7 +246,7 @@ public class Windows {
         }
     }
     // Hook this up to a cancel button to close the window and cancel its action.
-    private static class CancelListener implements ActionListener {
+    static class CancelListener implements ActionListener {
         private JFrame frame;
         public CancelListener(JFrame frame) { this.frame = frame; }
         @Override public void actionPerformed(ActionEvent e) { frame.dispose(); }
