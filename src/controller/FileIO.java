@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import java.io.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class FileIO {
     /**
@@ -48,6 +50,34 @@ public class FileIO {
             out.flush();
         } catch(IOException ioe) {
             throw ioe;
+        }
+    }
+
+    /**
+     * Generates hashcodes for username and password
+     */
+    public static int hashcode(String username, String password){
+        String str = username + "\n" + password;
+        return str.hashCode();
+    }
+
+    /**
+     * SUbclass serializable to save valid userhashcodes and project access
+     */
+    class UserInfo extends ArrayList<String> {
+        private static final long serialVersionUID = 1L;
+
+        private int userHash;
+        UserInfo(int userHash){
+            this.userHash = userHash;
+        }
+
+        public int getUserHash() {
+            return userHash;
+        }
+
+        public void setUserHash(int userHash) {
+            this.userHash = userHash;
         }
     }
 }
