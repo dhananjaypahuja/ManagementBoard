@@ -71,14 +71,7 @@ public class Main {
             }
         });
 
-        TaskModel tModel1a = new TaskModel("Task 1a", "Description 1a", new Date());
-        TaskModel tModel1b = new TaskModel("Task 1b", "Description 1b", new Date());
-        TaskModel tModel2a = new TaskModel("Task 2a", "Description 2a", new Date());
-        TaskModel tModel2b = new TaskModel("Task 2b", "Description 2b", new Date());
-        ColumnModel cModel1 = new ColumnModel("Column 1", tModel1a, tModel1b);
-        ColumnModel cModel2 = new ColumnModel("Column 2", tModel2a, tModel2b);
-        ProjectModel pModel = new ProjectModel("Project", cModel1, cModel2);
-        projView.setProject(pModel);
+        //projView.setProject(null);
 
         //specify diff grid x (changes) 0-6 grid y is 0
         c.gridx = 0;
