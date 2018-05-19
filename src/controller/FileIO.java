@@ -80,4 +80,17 @@ public class FileIO {
             this.userHash = userHash;
         }
     }
+
+    private static ArrayList<String> searchPrivileges(int userHash) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("privileges")))) {
+            for (UserInfo info = (UserInfo) in.readObject(); info != null; info = (UserInfo) in.readObject())
+                if (info.getUserHash() == userHash)
+                    return info;
+        } catch(IOException ioe) {
+            throw ioe;
+        } catch(ClassNotFoundException cnfe) {
+            throw cnfe;
+        }
+        return null;
+    }
 }
