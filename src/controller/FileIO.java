@@ -2,7 +2,6 @@ package controller;
 
 import model.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class FileIO {
@@ -56,19 +55,33 @@ public class FileIO {
     /**
      * Generates hashcodes for username and password
      */
-    public static int hashcode(String username, String password){
-        String str = username + "\n" + password;
+    public static int hashcode(String username, char[] password){
+        String str = username + "\n" + new String(password);
         return str.hashCode();
+    }
+
+    public static ArrayList<String> searchPrivileges(int userHash) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("privileges")))) {
+            for (UserInfo info = (UserInfo) in.readObject(); info != null; info = (UserInfo) in.readObject())
+                if (info.getUserHash() == userHash)
+                    return info;
+        } catch(IOException ioe) {
+            System.out.println("Error: FIle not found or access denied");
+        } catch(ClassNotFoundException cnfe) {
+            System.out.println("Data file corrupted: Privileges file not readable");
+        }
+        return null;
     }
 
     /**
      * Subclass serializable to save valid userhashcodes and project access
      */
-    class UserInfo extends ArrayList<String> {
+    public static class UserInfo extends ArrayList<String> {
         private static final long serialVersionUID = 1L;
 
         private int userHash;
-        UserInfo(int userHash){
+
+        public UserInfo(int userHash){
             this.userHash = userHash;
         }
 
@@ -79,18 +92,5 @@ public class FileIO {
         public void setUserHash(int userHash) {
             this.userHash = userHash;
         }
-    }
-
-    private static ArrayList<String> searchPrivileges(int userHash) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("privileges")))) {
-            for (UserInfo info = (UserInfo) in.readObject(); info != null; info = (UserInfo) in.readObject())
-                if (info.getUserHash() == userHash)
-                    return info;
-        } catch(IOException ioe) {
-            throw ioe;
-        } catch(ClassNotFoundException cnfe) {
-            throw cnfe;
-        }
-        return null;
     }
 }

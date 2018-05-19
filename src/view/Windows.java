@@ -1,5 +1,6 @@
 package view;
 
+import controller.FileIO;
 import model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -7,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.*;
 import java.util.*;
+import java.util.List;
 
 public class Windows {
 
@@ -23,8 +25,11 @@ public class Windows {
         this.popWindow = new JFrame();
         this.callback = callback;
         popWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        popWindow.setMinimumSize(new Dimension(250, 250));
         this.panel = new JPanel(new GridBagLayout());
         c = new GridBagConstraints();
+        c.insets = new Insets(1, 0, 1, 0);
+        c.ipadx = 100;
         c.fill = GridBagConstraints.HORIZONTAL;
         run(popType);
     }
@@ -114,19 +119,47 @@ public class Windows {
         popWindow.setVisible(true);
     }
 
+    //Decides text in Jlabel display
+    private static class loginListener implements ActionListener {
+        JLabel label;
+        JFrame frame;
+        JTextField nameField;
+        JPasswordField passwordField;
+
+        public loginListener(JLabel label, JFrame frame, JTextField nameField, JPasswordField passwordField) {
+            this.label = label;
+            this.frame = frame;
+            this.passwordField = passwordField;
+            this.nameField = nameField;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            List<String> list = FileIO.searchPrivileges(FileIO.hashcode(nameField.getText(), passwordField.getPassword()));
+            if(list == null){
+                label.setText("Login Failed! Try Again");
+            } else {
+                
+                frame.dispose();
+            }
+        }
+    }
+
     private void loginView() {
         JLabel username = new JLabel("Username:");
         JTextField nameField = new JTextField();
         JLabel password = new JLabel("Password:");
         JPasswordField passwordField = new JPasswordField();
         JButton loginButton = new JButton("LOGIN");
+        JLabel display = new JLabel();
+        loginButton.addActionListener(new loginListener(display, popWindow ,nameField, passwordField));
+        JButton newUserInfo = new JButton("New User?");
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                FileIO.UserInfo newUser = new FileIO.UserInfo(FileIO.hashcode(nameField.getText(), passwordField.getPassword()));
             }
         });
-
         c.gridx = 0;
         c.gridy = 0;
         panel.add(username, c);
@@ -137,6 +170,14 @@ public class Windows {
         panel.add(password, c);
         c.gridx = 1;
         panel.add(passwordField, c);
+        c.gridx = 0;
+        c.gridy = 2;
+        panel.add(loginButton, c);
+        c.gridx = 1;
+        panel.add(newUserInfo, c);
+        c.gridx = 1;
+        c.gridy = 3;
+        panel.add(display, c);
 
         panel.setVisible(true);
         popWindow.add(panel);
