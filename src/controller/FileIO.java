@@ -2,6 +2,7 @@ package controller;
 
 import model.*;
 import java.io.*;
+import java.util.*;
 
 public class FileIO {
     /**
@@ -49,5 +50,18 @@ public class FileIO {
         } catch(IOException ioe) {
             throw ioe;
         }
+    }
+
+    private static ArrayList<String> searchPrivileges(int userHash) throws IOException, ClassNotFoundException {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("privileges")))) {
+            for (UserInfo info = (UserInfo) in.read(); info != null; info = (UserInfo) in.read())
+                if (info.getHash() == userHash)
+                    return info;
+        } catch(IOException ioe) {
+            throw ioe;
+        } catch(ClassNotFoundException cnfe) {
+            throw cnfe;
+        }
+        return null;
     }
 }
