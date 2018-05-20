@@ -55,7 +55,7 @@ public class FileIO {
     /**
      * Generates hashcodes for username and password
      */
-    public static int hashcode(String username, char[] password){
+    public static int hashcode(String username, char[] password) {
         String str = username + "\n" + new String(password);
         return str.hashCode();
     }
@@ -74,6 +74,26 @@ public class FileIO {
     }
 
     /**
+     * Writes a new user to the privileges file if that user already exists.
+     * @param userHash The hash of the username and password to add.
+     * @return Whether the user was added.
+     */
+    public static boolean createUser(int userHash) {
+        if (searchPrivileges(hash) == null) {
+            UserInfo newUser = new UserInfo(hash);
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("privileges"))) {
+                @Override protected void writeStreamHeader() throws IOException { reset(); }
+            }) {
+                out.writeObject(newUser);
+                return true;
+            } catch(IOException ioe) {
+                label.setText("Could not create new user.");
+            }
+        }
+        return false;
+    }
+
+    /**
      * Subclass serializable to save valid userhashcodes and project access
      */
     public static class UserInfo extends ArrayList<String> {
@@ -81,7 +101,7 @@ public class FileIO {
 
         private int userHash;
 
-        public UserInfo(int userHash){
+        public UserInfo(int userHash) {
             this.userHash = userHash;
         }
 
