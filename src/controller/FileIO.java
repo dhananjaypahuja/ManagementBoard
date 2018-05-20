@@ -60,14 +60,6 @@ public class FileIO {
         return str.hashCode();
     }
 
-    public static UserInfo searchPrivileges(int userHash) {
-        List<UserInfo> userInfo = readPrivileges();
-        for (UserInfo info : userInfo)
-            if (info.getUserHash() == userHash)
-                return info;
-        return null;
-    }
-
     /**
      * Writes a new user to the privileges file if that user already exists.
      * @param userHash The hash of the username and password to add.
@@ -87,6 +79,13 @@ public class FileIO {
         }
         return false;
     }
+    public static UserInfo searchPrivileges(int userHash) {
+        List<UserInfo> userInfo = readPrivileges();
+        for (UserInfo info : userInfo)
+            if (info.getUserHash() == userHash)
+                return info;
+        return null;
+    }
     public static ArrayList<UserInfo> readPrivileges() {
         ArrayList<UserInfo> infoList = new ArrayList<UserInfo>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("./privileges")))) {
@@ -97,6 +96,25 @@ public class FileIO {
             e.printStackTrace();
         }
         return infoList;
+    }
+    /**
+     * Add a filepath to the list of files a user denoted by a hash is authorized to access.
+     * @param userHash The user's hash, determined by username and password.
+     * @param filepath The filepath to add.
+     * @return Whether the filepath was added. If the user was already authorized to access
+     *         the file, it is not duplicated in the user's privileges.
+     */
+    public static boolean addFilePrivilege(int userHash, String filepath) {
+        List<UserInfo> userInfo = readPrivileges();
+        for (UserInfo info : userInfo)
+            if (info.getUserHash() == userHash)
+                if (info.contains(filepath))
+                    return false;
+                else {
+                    info.add(filepath);
+                    return true;
+                }
+        throw new RuntimeException("User hash not found.");
     }
 
     /**
