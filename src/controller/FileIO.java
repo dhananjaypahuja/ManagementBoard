@@ -2,7 +2,7 @@ package controller;
 
 import model.*;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class FileIO {
     /**
@@ -60,16 +60,11 @@ public class FileIO {
         return str.hashCode();
     }
 
-    public static ArrayList<String> searchPrivileges(int userHash) {
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("privileges")))) {
-            for (UserInfo info = (UserInfo) in.readObject(); info != null; info = (UserInfo) in.readObject())
-                if (info.getUserHash() == userHash)
-                    return info;
-        } catch(IOException ioe) {
-            System.out.println("Error: FIle not found or access denied");
-        } catch(ClassNotFoundException cnfe) {
-            System.out.println("Data file corrupted: Privileges file not readable");
-        }
+    public static UserInfo searchPrivileges(int userHash) {
+        List<UserInfo> userInfo = readPrivileges();
+        for (UserInfo info : userInfo)
+            if (info.getUserHash() == userHash)
+                return info;
         return null;
     }
 
@@ -79,18 +74,29 @@ public class FileIO {
      * @return Whether the user was added.
      */
     public static boolean createUser(int userHash) {
-        if (searchPrivileges(userHash) == null) {
-            UserInfo newUser = new UserInfo(userHash);
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("privileges"))) {
-                @Override protected void writeStreamHeader() throws IOException { reset(); }
-            }) {
-                out.writeObject(newUser);
-                return true;
-            } catch(IOException ioe) {
-                ioe.printStackTrace();
-            }
+        ArrayList<UserInfo> privileges = readPrivileges();
+        for (UserInfo info : privileges)
+            if (info.getUserHash() == userHash)
+                return false;
+        privileges.add(new UserInfo(userHash));
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("./privileges")))) {
+            out.writeObject(privileges);
+            return true;
+        } catch(IOException ioe) {
+            ioe.printStackTrace();
         }
         return false;
+    }
+    public static ArrayList<UserInfo> readPrivileges() {
+        ArrayList<UserInfo> infoList = new ArrayList<UserInfo>();
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("./privileges")))) {
+            infoList = (ArrayList<UserInfo>) in.readObject();
+        } catch(EOFException eofe) {
+            return new ArrayList<UserInfo>();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+        return infoList;
     }
 
     /**
