@@ -1,6 +1,7 @@
 package view;
 
 import controller.FileIO;
+import controller.Main;
 import model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -135,11 +136,11 @@ public class Windows {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            List<String> list = FileIO.searchPrivileges(FileIO.hashcode(nameField.getText(), passwordField.getPassword()));
+            ArrayList<String> list = FileIO.searchPrivileges(FileIO.hashcode(nameField.getText(), passwordField.getPassword()));
             if(list == null){
                 label.setText("Login Failed! Try Again");
             } else {
-                
+                new MainWindow(list);
                 frame.dispose();
             }
         }
