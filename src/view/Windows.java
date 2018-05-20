@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.text.*;
 import java.util.*;
 import java.util.List;
@@ -136,11 +137,13 @@ public class Windows {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            ArrayList<String> list = FileIO.searchPrivileges(FileIO.hashcode(nameField.getText(), passwordField.getPassword()));
+            int h = FileIO.hashcode(nameField.getText(), passwordField.getPassword());
+            ArrayList<String> list = FileIO.searchPrivileges(h);
             if(list == null){
                 label.setText("Login Failed! Try Again");
             } else {
                 new MainWindow(list);
+                FileIO.createUser(h);
                 frame.dispose();
             }
         }

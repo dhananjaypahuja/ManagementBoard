@@ -79,8 +79,8 @@ public class FileIO {
      * @return Whether the user was added.
      */
     public static boolean createUser(int userHash) {
-        if (searchPrivileges(hash) == null) {
-            UserInfo newUser = new UserInfo(hash);
+        if (searchPrivileges(userHash) == null) {
+            UserInfo newUser = new UserInfo(userHash);
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("privileges"))) {
                 @Override protected void writeStreamHeader() throws IOException { reset(); }
             }) {
