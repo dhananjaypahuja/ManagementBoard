@@ -87,7 +87,7 @@ public class FileIO {
                 out.writeObject(newUser);
                 return true;
             } catch(IOException ioe) {
-                label.setText("Could not create new user.");
+                ioe.printStackTrace();
             }
         }
         return false;
