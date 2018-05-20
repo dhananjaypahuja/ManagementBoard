@@ -143,11 +143,42 @@ public class Windows {
                 label.setText("Login Failed! Try Again");
             } else {
                 new MainWindow(list);
-                FileIO.createUser(h);
+//                FileIO.createUser(h);
                 frame.dispose();
             }
         }
     }
+
+    private static class newUserListener implements ActionListener {
+        JLabel label;
+        JFrame frame;
+        JTextField nameField;
+        JPasswordField passwordField;
+
+        public newUserListener(JLabel label, JFrame frame, JTextField nameField, JPasswordField passwordField) {
+            this.label = label;
+            this.frame = frame;
+            this.passwordField = passwordField;
+            this.nameField = nameField;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            int h = FileIO.hashcode(nameField.getText(), passwordField.getPassword());
+            ArrayList<String> list = FileIO.searchPrivileges(h);
+            if(list == null){
+                FileIO.createUser(h);
+                new MainWindow(list);
+//                label.setText("Login Failed! Try Again");
+            } else {
+                System.out.println("Error: User already exists or file access denied");
+//                new MainWindow(list);
+//                FileIO.createUser(h);
+                frame.dispose();
+            }
+        }
+    }
+
 
     private void loginView() {
         JLabel username = new JLabel("Username:");
@@ -157,13 +188,9 @@ public class Windows {
         JButton loginButton = new JButton("LOGIN");
         JLabel display = new JLabel();
         loginButton.addActionListener(new loginListener(display, popWindow ,nameField, passwordField));
-        JButton newUserInfo = new JButton("New User?");
-        loginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FileIO.UserInfo newUser = new FileIO.UserInfo(FileIO.hashcode(nameField.getText(), passwordField.getPassword()));
-            }
-        });
+        JButton newUserButton = new JButton("New User?");
+        newUserButton.addActionListener(new newUserListener(display, popWindow ,nameField, passwordField));
+
         c.gridx = 0;
         c.gridy = 0;
         panel.add(username, c);
@@ -178,7 +205,7 @@ public class Windows {
         c.gridy = 2;
         panel.add(loginButton, c);
         c.gridx = 1;
-        panel.add(newUserInfo, c);
+        panel.add(newUserButton, c);
         c.gridx = 1;
         c.gridy = 3;
         panel.add(display, c);
