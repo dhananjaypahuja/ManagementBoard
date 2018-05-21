@@ -122,7 +122,7 @@ public class FileIO {
      * @return A string array of the filepaths.
      */
     public static String[] getPaths(UserInfo userInfo) {
-        String[] paths = userInfo.size();
+        String[] paths = new String[userInfo.size()];
         for (int i = 0; i < userInfo.size(); i ++)
             paths[i] = userInfo.get(i);
         return paths;
