@@ -124,4 +124,17 @@ public class Manager {
         cView.revalidate();
         return true;
     }
+
+    public static String[] columnTitles(ProjectModel pModel) {
+        String[] titles = new String[pModel.size()];
+        for (int i = 0; i < titles.length; i ++)
+            titles[i] = pModel.get(i);
+        return titles;
+    }
+    public static int indexOfColumnContainingTask(ProjectModel pModel, TaskModel tModel) {
+        for (int i = 0; i < pModel.size(); i ++)
+            if (pModel.get(i).contains(tModel))
+                return i;
+        return -1;
+    }
 }
