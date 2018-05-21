@@ -58,6 +58,16 @@ public class Manager {
         return task;
     }
     /**
+     * Removes a task from a column view and model.
+     * @param cView The {@link ColumnView} from which the task should be removed.
+     * @param tModel The task to remove.
+     * @return The removed task.
+     */
+    public static TaskModel removeTask(ColumnView cView, TaskModel tModel) {
+        int index = cView.getColumn().indexOf(tModel);
+        return index < 0 ? null : removeTask(cView, index);
+    }
+    /**
      * Swaps two columns in a project view and model.
      * @param pView The {@link ProjectView} of the project whose columns should be swapped.
      * @param index1 The position of one column to swap.

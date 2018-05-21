@@ -118,7 +118,7 @@ public class TaskView extends JPanel {
             frame.setMinimumSize(new Dimension(256, 160));
 
             JButton confirm = new JButton("Confirm");
-            confirm.addActionListener(new ConfirmEditListener(frame, tView, title, description, dateModel, statusPanel));
+            confirm.addActionListener(new ConfirmEditListener(frame, tView, title, description, dateModel, statusPanel, pView));
             JButton cancel = new JButton("Cancel");
             cancel.addActionListener(new Windows.CancelListener(frame));
 
@@ -142,12 +142,12 @@ public class TaskView extends JPanel {
             frame.add(dateSpinner, c);
             c.gridy ++;
             frame.add(new JLabel("Status"), c);
-            c.gridx ++;
+            c.gridx --;
             frame.add(statusPanel, c);
             c.gridy ++;
-            frame.add(confirm, c);
-            c.gridx --;
             frame.add(cancel, c);
+            c.gridx ++;
+            frame.add(confirm, c);
 
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
@@ -169,13 +169,15 @@ public class TaskView extends JPanel {
         private JTextArea title, description;
         private SpinnerDateModel date;
         JComboBox statusPanel;
-        ConfirmEditListener(JFrame frame, TaskView tView, JTextArea title, JTextArea description, SpinnerDateModel date, JComboBox statusPanel) {
+        private ProjectView pView;
+        ConfirmEditListener(JFrame frame, TaskView tView, JTextArea title, JTextArea description, SpinnerDateModel date, JComboBox statusPanel, ProjectView pView) {
             this.frame = frame;
             this.tView = tView;
             this.title = title;
             this.description = description;
             this.date = date;
             this.statusPanel = statusPanel;
+            this.pView = pView;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -183,6 +185,14 @@ public class TaskView extends JPanel {
             tModel.setTitle(title.getText());
             tModel.setDescription(description.getText());
             tModel.setDue(date.getDate());
+            int indexFrom = Manager.indexOfColumnContainingTask(pView.getProject(), tModel);
+            int indexTo = statusPanel.getSelectedIndex();
+            if (indexFrom != indexTo) {
+                Component[] columns = pView.getComponents();
+                ColumnView columnFrom = (ColumnView) columns[indexFrom];
+                ColumnView columnTo = (ColumnView) columns[indexTo];
+                Manager.addTask(columnTo, Manager.removeTask(columnFrom, tModel), 0);
+            }
             tView.revalidate();
             frame.dispose();
         }
