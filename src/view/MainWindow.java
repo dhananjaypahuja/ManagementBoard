@@ -1,6 +1,8 @@
 package view;
 
 import controller.Main;
+import controller.Manager;
+import model.ColumnModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +20,8 @@ public class MainWindow {
         frame.setBounds(0, 0, 700, 500);
 
         JLabel pLabel = new JLabel("Select Project");
-        JScrollPane pScroll = new JScrollPane(); //Project list scroll
         ProjectView projView = new ProjectView();//gridx 0 gridy 1
+        JComboBox pScroll = new JComboBox(Manager.columnTitles(projView.getProject())); //Project list scroll
 
         JButton loadButton = new JButton("Load");
         loadButton.addActionListener(new ActionListener() {
