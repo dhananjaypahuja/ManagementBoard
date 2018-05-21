@@ -35,7 +35,7 @@ public class TaskView extends JPanel {
         setBorder(new CompoundBorder(new EmptyBorder(2, 2, 2, 2), new LineBorder(Color.BLACK)));
         setBackground(task.getColor());
         // Initial label settings
-        MouseListener listener = new EditListener(this, );
+        MouseListener listener = new EditListener(this);
         title = makeTextArea(task.getTitle(), listener);
         title.setFont(new Font("Sans-Serif", Font.BOLD, 14));
         description = makeTextArea(task.getDescription(), listener);
@@ -90,10 +90,8 @@ public class TaskView extends JPanel {
 
     private class EditListener implements MouseListener {
         TaskView tView;
-        ProjectView projectView;
-        EditListener(TaskView tView, ProjectView projectView) {
+        EditListener(TaskView tView) {
             this.tView = tView;
-            this.projectView = projectView;
         }
         @Override
         public void mouseClicked(MouseEvent e) {
