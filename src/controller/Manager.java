@@ -128,7 +128,7 @@ public class Manager {
     public static String[] columnTitles(ProjectModel pModel) {
         String[] titles = new String[pModel.size()];
         for (int i = 0; i < titles.length; i ++)
-            titles[i] = pModel.get(i);
+            titles[i] = pModel.get(i).getTitle();
         return titles;
     }
     public static int indexOfColumnContainingTask(ProjectModel pModel, TaskModel tModel) {
