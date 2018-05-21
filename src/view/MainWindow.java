@@ -25,7 +25,7 @@ public class MainWindow {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Load", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(null, "Load", "Test Box", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -34,7 +34,7 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                JOptionPane.showMessageDialog(null, "Edit", "Test Box", JOptionPane.INFORMATION_MESSAGE);
-                Windows taskWindow = new Windows(Windows.WindowType.CREATETASK);
+//                Windows taskWindow = new Windows(Windows.WindowType.CREATETASK);
             }
         });
 
@@ -42,7 +42,7 @@ public class MainWindow {
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Delete", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(null, "Delete", "Test Box", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -50,7 +50,7 @@ public class MainWindow {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(null, "Save", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+//                JOptionPane.showMessageDialog(null, "Save", "Test Box", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
@@ -62,7 +62,10 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                JOptionPane.showMessageDialog(null, "Log Out", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+                frame.dispose();
+                frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 Windows taskWindow = new Windows(Windows.WindowType.LOGIN);
+
             }
         });
 

@@ -59,6 +59,7 @@ public class Windows {
     private void newTask() {
         popWindow.setMinimumSize(new Dimension(602, 528));
         popWindow.setTitle("New Task");
+        popWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JLabel taskName = new JLabel("Task Name:");
         taskName.setMinimumSize(new Dimension(120, 12));
@@ -182,6 +183,7 @@ public class Windows {
 
 
     private void loginView() {
+        popWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JLabel username = new JLabel("Username:");
         JTextField nameField = new JTextField();
         JLabel password = new JLabel("Password:");
@@ -218,6 +220,7 @@ public class Windows {
     }
 
     private void newProj() {
+        popWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         if (!(callback instanceof ProjectView))
             throw new RuntimeException("Requires reference to a ProjectView");
         JLabel projName = new JLabel("Name:");
