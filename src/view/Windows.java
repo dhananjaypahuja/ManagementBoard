@@ -59,6 +59,7 @@ public class Windows {
     private void newTask() {
         popWindow.setMinimumSize(new Dimension(602, 528));
         popWindow.setTitle("New Task");
+        popWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         JLabel taskName = new JLabel("Task Name:");
         taskName.setMinimumSize(new Dimension(120, 12));
@@ -171,16 +172,18 @@ public class Windows {
                 new MainWindow(list);
 //                label.setText("Login Failed! Try Again");
             } else {
-                System.out.println("Error: User already exists or file access denied");
+                System.out.println("Error: User already exists or file access denied or hashcode collision");
 //                new MainWindow(list);
 //                FileIO.createUser(h);
-                frame.dispose();
+//                frame.dispose();
+                label.setText("User already exists or file access denied");
             }
         }
     }
 
 
     private void loginView() {
+        popWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         JLabel username = new JLabel("Username:");
         JTextField nameField = new JTextField();
         JLabel password = new JLabel("Password:");
@@ -217,6 +220,7 @@ public class Windows {
     }
 
     private void newProj() {
+        popWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         if (!(callback instanceof ProjectView))
             throw new RuntimeException("Requires reference to a ProjectView");
         JLabel projName = new JLabel("Name:");
