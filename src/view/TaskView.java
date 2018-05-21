@@ -97,6 +97,7 @@ public class TaskView extends JPanel {
         public void mouseClicked(MouseEvent e) {
             ProjectView pView = getParentProject();
 
+            JComboBox statusPanel = new JComboBox(Manager.columnTitles(pView.getProject()));
             TaskModel tModel = tView.getTask();
 
             JTextArea title = new JTextArea(tModel.getTitle());
@@ -117,7 +118,7 @@ public class TaskView extends JPanel {
             frame.setMinimumSize(new Dimension(256, 160));
 
             JButton confirm = new JButton("Confirm");
-            confirm.addActionListener(new ConfirmEditListener(frame, tView, title, description, dateModel));
+            confirm.addActionListener(new ConfirmEditListener(frame, tView, title, description, dateModel, statusPanel));
             JButton cancel = new JButton("Cancel");
             cancel.addActionListener(new Windows.CancelListener(frame));
 
@@ -141,7 +142,6 @@ public class TaskView extends JPanel {
             frame.add(dateSpinner, c);
             c.gridy ++;
             frame.add(new JLabel("Status"), c);
-            JComboBox statusPanel = new JComboBox(Manager.columnTitles(pView.getProject()));
             c.gridx ++;
             frame.add(statusPanel, c);
             c.gridy ++;
@@ -168,12 +168,14 @@ public class TaskView extends JPanel {
         private TaskView tView;
         private JTextArea title, description;
         private SpinnerDateModel date;
-        ConfirmEditListener(JFrame frame, TaskView tView, JTextArea title, JTextArea description, SpinnerDateModel date) {
+        JComboBox statusPanel;
+        ConfirmEditListener(JFrame frame, TaskView tView, JTextArea title, JTextArea description, SpinnerDateModel date, JComboBox statusPanel) {
             this.frame = frame;
             this.tView = tView;
             this.title = title;
             this.description = description;
             this.date = date;
+            this.statusPanel = statusPanel;
         }
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -183,6 +185,17 @@ public class TaskView extends JPanel {
             tModel.setDue(date.getDate());
             tView.revalidate();
             frame.dispose();
+        }
+
+        public void selectColumn(JComboBox statusPanel, ProjectView projectView){
+
+            if(statusPanel.getSelectedIndex()== Manager.indexOfColumnContainingTask(projectView.getProject(), tView.getTask())){
+                System.out.println("Status unchanged");
+            } else {
+                //tView.getTask().add
+                //then remove from revius column
+                        //doessomething have to be done with updateLabels and putting this method in there
+            }
         }
     }
 }
