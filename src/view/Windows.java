@@ -171,10 +171,11 @@ public class Windows {
                 new MainWindow(list);
 //                label.setText("Login Failed! Try Again");
             } else {
-                System.out.println("Error: User already exists or file access denied");
+                System.out.println("Error: User already exists or file access denied or hashcode collision");
 //                new MainWindow(list);
 //                FileIO.createUser(h);
-                frame.dispose();
+//                frame.dispose();
+                label.setText("User already exists or file access denied");
             }
         }
     }
