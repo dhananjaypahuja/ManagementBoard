@@ -2,6 +2,7 @@ package view;
 
 import controller.FileIO;
 import controller.Main;
+import controller.Manager;
 import model.*;
 import javax.swing.*;
 import java.awt.*;
@@ -67,8 +68,6 @@ public class Windows {
         JLabel taskDescription = new JLabel("Description:");
         JTextField descriptionField = new JTextField();
         descriptionField.setBounds(0,0,200,200);
-        JLabel taskStatus = new JLabel("Status:");
-        JScrollPane statusPanel = new JScrollPane();
         JLabel taskDate = new JLabel("Due Date:");
 
         Calendar calendar = Calendar.getInstance();
@@ -100,11 +99,6 @@ public class Windows {
         panel.add(descriptionField, c);
         c.gridx = 0;
         c.gridy = 2;
-        panel.add(taskStatus, c);
-        c.gridx = 1;
-        panel.add(statusPanel, c);
-        c.gridx = 0;
-        c.gridy = 3;
         panel.add(taskDate, c);
         c.gridx = 1;
         panel.add(dateSpinner, c);

@@ -22,6 +22,7 @@ public class MainWindow {
         JLabel pLabel = new JLabel("Select Project");
         ProjectView projView = new ProjectView();//gridx 0 gridy 1
         JComboBox pScroll = new JComboBox(Manager.columnTitles(projView.getProject())); //Project list scroll
+        //TODO FIX TO SHOW PROJECTS LIST
 
         JButton loadButton = new JButton("Load");
         loadButton.addActionListener(new ActionListener() {
