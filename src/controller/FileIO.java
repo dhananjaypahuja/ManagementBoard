@@ -116,6 +116,17 @@ public class FileIO {
                 }
         throw new RuntimeException("User hash not found.");
     }
+    /**
+     * Get an array of filepaths for projects a user can access.
+     * @param userInfo The {@link UserInfo} object containing the desied filepaths.
+     * @return A string array of the filepaths.
+     */
+    public static String[] getPaths(UserInfo userInfo) {
+        String[] paths = userInfo.size();
+        for (int i = 0; i < userInfo.size(); i ++)
+            paths[i] = userInfo.get(i);
+        return paths;
+    }
 
     /**
      * Subclass serializable to save valid userhashcodes and project access
