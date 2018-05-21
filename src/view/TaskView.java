@@ -94,6 +94,8 @@ public class TaskView extends JPanel {
         }
         @Override
         public void mouseClicked(MouseEvent e) {
+            ProjectView pView = getParentProject();
+
             TaskModel tModel = tView.getTask();
 
             JTextArea title = new JTextArea(tModel.getTitle());
@@ -148,6 +150,12 @@ public class TaskView extends JPanel {
         @Override public void mouseReleased(MouseEvent e) {}
         @Override public void mouseEntered(MouseEvent e) {}
         @Override public void mouseExited(MouseEvent e) {}
+
+        private ProjectView getParentProject() {
+            Container c;
+            for (c = tView.getParent(); !(c instanceof ProjectView); c = c.getParent());
+            return (ProjectView) c;
+        }
     }
     private class ConfirmEditListener implements ActionListener {
         private JFrame frame;
