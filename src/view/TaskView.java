@@ -122,6 +122,11 @@ public class TaskView extends JPanel {
             JButton cancel = new JButton("Cancel");
             cancel.addActionListener(new Windows.CancelListener(frame));
 
+            JButton delete = new JButton("Delete");
+            delete.setBackground(Color.RED);
+            delete.setForeground(Color.BLUE);
+            delete.addActionListener(new DeleteListener(frame, tView, pView));
+
             GridBagConstraints c = new GridBagConstraints();
             c.gridx = c.gridy = 0;
             c.gridwidth = c.gridheight = 1;
@@ -148,6 +153,9 @@ public class TaskView extends JPanel {
             frame.add(cancel, c);
             c.gridx ++;
             frame.add(confirm, c);
+            c.gridy++;
+            c.gridx++;
+            frame.add(delete, c);
 
             frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame.setVisible(true);
@@ -207,5 +215,30 @@ public class TaskView extends JPanel {
 //                        //doessomething have to be done with updateLabels and putting this method in there
 //            }
 //        }
+    }
+
+    private class DeleteListener implements ActionListener {
+        private JFrame frame;
+        private TaskView tView;
+        private ProjectView pView;
+
+        DeleteListener(JFrame frame, TaskView tView, ProjectView pView) {
+            this.frame = frame;
+            this.tView = tView;
+            this.pView = pView;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            Manager.removeTask(getParentProject(), tView.getTask());
+            tView.revalidate();
+            frame.dispose();
+        }
+
+        private ColumnView getParentProject() {
+            Container c;
+            for (c = tView.getParent(); !(c instanceof ColumnView); c = c.getParent());
+            return (ColumnView) c;
+        }
     }
 }
