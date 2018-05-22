@@ -15,7 +15,7 @@ public class MainWindow {
         jPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        frame.setBounds(0, 0, 700, 500);
+        frame.setBounds(0, 0, 1024, 512);
 
         JLabel pLabel = new JLabel("Select Project");
         ProjectView projView = new ProjectView();//gridx 0 gridy 1
@@ -56,14 +56,6 @@ public class MainWindow {
             }
         });
 
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Delete", "Test Box", JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -77,6 +69,50 @@ public class MainWindow {
         JButton newProjButton = new JButton("Create New Project");
         newProjButton.addActionListener(new CreateWindowListener(Windows.WindowType.CREATEPROJECT, projView));
         // pScroll.addItem(projView);
+
+        JButton removeProjectButton = new JButton("Remove Project");
+        removeProjectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame rmFrame = new JFrame("Remove project?");
+                rmFrame.setLayout(new GridBagLayout());
+                rmFrame.setMinimumSize(new Dimension(320, 96));
+                rmFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+                JButton cancel = new JButton("No");
+                cancel.addActionListener(new Windows.CancelListener(rmFrame));
+                JButton confirm = new JButton("Yes");
+                confirm.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        int index = pScroll.getSelectedIndex();
+                        FileIO.removeProject(pScroll, projList);
+                        if (index > 0) {
+                            pScroll.setSelectedItem(index - 1);
+                        } else if (index < pScroll.getItemCount()) {
+                            pScroll.setSelectedIndex(index);
+                        } else {
+                            projView.setProject(new model.ProjectModel());
+                        }
+                        rmFrame.dispose();
+                    }
+                });
+
+                GridBagConstraints c = new GridBagConstraints();
+                c.gridx = c.gridy = 0;
+                c.gridwidth = 2;
+                c.gridheight = 1;
+                c.fill = GridBagConstraints.HORIZONTAL;
+                rmFrame.add(new JLabel("Are you sure you want to remove this project?"), c);
+                c.gridwidth = c.gridy = c.gridx = 1;
+                rmFrame.add(confirm, c);
+                c.gridx --;
+                rmFrame.add(cancel, c);
+
+                cancel.setSelected(true);
+                rmFrame.setVisible(true);
+            }
+        });
 
         JButton logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(new ActionListener() {
@@ -105,10 +141,10 @@ public class MainWindow {
         c.gridx = 5;
         jPanel.add(loadButton, c);
         c.gridx = 6;
-        jPanel.add(deleteButton, c);
+        jPanel.add(removeProjectButton, c);
         c.gridx = 7;
         jPanel.add(logOutButton, c);
-        c.gridwidth = 8;
+        c.gridwidth = 9;
         c.gridx = 0;
         c.gridy = 1;
         c.fill = GridBagConstraints.BOTH;
