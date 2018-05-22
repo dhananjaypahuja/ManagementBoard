@@ -195,6 +195,7 @@ public class FileIO {
         if (!uInfo.contains(path))
             return false;
         uInfo.remove(path);
+        dropdown.removeItem(path);
         ArrayList<UserInfo> privileges = readPrivileges();
         for (UserInfo info : privileges)
             if (info.getUserHash() == uInfo.getUserHash()) {
