@@ -123,8 +123,7 @@ public class TaskView extends JPanel {
             cancel.addActionListener(new Windows.CancelListener(frame));
 
             JButton delete = new JButton("Delete");
-            delete.setBackground(Color.RED);
-            delete.setForeground(Color.BLUE);
+            delete.setForeground(Color.RED);
             delete.addActionListener(new DeleteListener(frame, tView, pView));
 
             GridBagConstraints c = new GridBagConstraints();
