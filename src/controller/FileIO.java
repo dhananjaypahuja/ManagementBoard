@@ -138,6 +138,7 @@ public class FileIO {
 
     public static void saveProject(ProjectModel projModel, UserInfo projList) {
         JFileChooser fc = new JFileChooser();
+        //TODO only ask user for filepath the first time then set it as default
 //        FileNameExtensionFilter filter = new FileNameExtensionFilter(
 //                "Text files only", "txt");
 //        fc.setFileFilter(filter);
@@ -152,6 +153,30 @@ public class FileIO {
                 return;
             } catch(IOException e){
                 System.out.println("Error: I/O Exception");
+                return;
+            }
+        }else{
+            System.out.println("Error: Wrong Input Type or operation canceled");
+        }
+    }
+
+    public static void loadProject(ProjectModel project, UserInfo projList) {
+        //TODO populate the dropbox with the loaded projects
+        JFileChooser fc = new JFileChooser();
+        int returnVal = fc.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            try{
+                read(file);
+                addFilePrivilege(projList.getUserHash(),file.getAbsolutePath());
+            }catch(FileNotFoundException e) {
+                System.out.println("Error: File Not Found");
+                return;
+            } catch(IOException e){
+                System.out.println("Error: I/O Exception");
+                return;
+            } catch (ClassNotFoundException e) {
+                System.out.println("Error: Class Not Found Exception");
                 return;
             }
         }else{
