@@ -97,7 +97,7 @@ public class TaskView extends JPanel {
         public void mouseClicked(MouseEvent e) {
             ProjectView pView = getParentProject();
 
-            JComboBox statusPanel = new JComboBox(Manager.columnTitles(pView.getProject()));
+            JComboBox<String> statusPanel = new JComboBox<String>(Manager.columnTitles(pView.getProject()));
             TaskModel tModel = tView.getTask();
 
             JTextArea title = new JTextArea(tModel.getTitle());

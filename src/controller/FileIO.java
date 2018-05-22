@@ -136,7 +136,7 @@ public class FileIO {
         return paths;
     }
 
-    public static void saveProject(ProjectModel projModel, UserInfo projList) {
+    public static void saveProject(ProjectModel projModel, UserInfo projList, JComboBox<String> dropdown) {
         JFileChooser fc = new JFileChooser();
         //TODO only ask user for filepath the first time then set it as default
 //        FileNameExtensionFilter filter = new FileNameExtensionFilter(
@@ -147,7 +147,9 @@ public class FileIO {
             File file = fc.getSelectedFile();
             try{
                 write(file, projModel);
-                addFilePrivilege(projList.getUserHash(),file.getAbsolutePath());
+                String path = file.getAbsolutePath();
+                addFilePrivilege(projList.getUserHash(), path);
+                addIfPossible(dropdown, path);
             }catch(FileNotFoundException e) {
                 System.out.println("Error: File Not Found");
                 return;
@@ -160,7 +162,7 @@ public class FileIO {
         }
     }
 
-    public static void loadProject(ProjectModel project, UserInfo projList, JComboBox pScroll) {
+    public static void loadProject(ProjectModel project, UserInfo projList, JComboBox<String> pScroll) {
         //TODO populate the dropbox with the loaded projects
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(null);
@@ -168,8 +170,9 @@ public class FileIO {
             File file = fc.getSelectedFile();
             try{
                 read(file);
-                addFilePrivilege(projList.getUserHash(),file.getAbsolutePath());
-                pScroll.addItem(file);
+                String path = file.getAbsolutePath();
+                addFilePrivilege(projList.getUserHash(), path);
+                addIfPossible(pScroll, path);
             }catch(FileNotFoundException e) {
                 System.out.println("Error: File Not Found");
                 return;
@@ -183,6 +186,17 @@ public class FileIO {
         }else{
             System.out.println("Error: Wrong Input Type or operation canceled");
         }
+    }
+
+    private static void addIfPossible(JComboBox<String> dropdown, String item) {
+        int count = dropdown.getItemCount();
+        for (int i = 0; i < dropdown.getItemCount(); i ++)
+            if (dropdown.getItemAt(i).equals(item)) {
+                dropdown.setSelectedIndex(i);
+                return;
+            }
+        dropdown.addItem(item);
+        dropdown.setSelectedIndex(count);
     }
 
     /**

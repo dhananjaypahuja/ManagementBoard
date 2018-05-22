@@ -5,8 +5,7 @@ import controller.Manager;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class MainWindow {
@@ -20,7 +19,21 @@ public class MainWindow {
 
         JLabel pLabel = new JLabel("Select Project");
         ProjectView projView = new ProjectView();//gridx 0 gridy 1
-        JComboBox pScroll = new JComboBox();
+        JComboBox<String> pScroll = new JComboBox<String>();
+        pScroll.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    // TODO ask if user wants to save
+                    try {
+                        projView.setProject(FileIO.read((String) e.getItem()));
+                        projView.revalidate();
+                    } catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+        });
         populateProjectList(pScroll, projList);//Project list scroll
         /**FileIO.searchPrivileges(projList.getUserHash())*/
         //TODO FIX TO SHOW PROJECTS LIST
@@ -56,14 +69,14 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                JOptionPane.showMessageDialog(null, "Save", "Test Box", JOptionPane.INFORMATION_MESSAGE);
-                FileIO.saveProject(projView.getProject(), projList);
+                FileIO.saveProject(projView.getProject(), projList, pScroll);
 
             }
         });
 
         JButton newProjButton = new JButton("Create New Project");
         newProjButton.addActionListener(new CreateWindowListener(Windows.WindowType.CREATEPROJECT, projView));
-        pScroll.addItem(projView);
+        // pScroll.addItem(projView);
 
         JButton logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(new ActionListener() {
@@ -109,7 +122,7 @@ public class MainWindow {
         frame.setVisible(true);
     }
 
-    private void populateProjectList(JComboBox pScroll, FileIO.UserInfo projList) {
+    private void populateProjectList(JComboBox<String> pScroll, FileIO.UserInfo projList) {
         for (int i = 0; i < projList.size(); i ++)
             pScroll.addItem(projList.get(i));
         return;

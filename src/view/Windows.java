@@ -130,7 +130,7 @@ public class Windows {
         public void actionPerformed(ActionEvent e) {
             int h = FileIO.hashcode(nameField.getText(), passwordField.getPassword());
             FileIO.UserInfo list = FileIO.searchPrivileges(h);
-            if(list == null){
+            if(list == null) {
                 label.setText("Login Failed! Try Again");
             } else {
                 new MainWindow(list);
@@ -160,7 +160,7 @@ public class Windows {
             FileIO.UserInfo list = FileIO.searchPrivileges(h);
             if(list == null){
                 FileIO.createUser(h);
-                new MainWindow(list);
+                new MainWindow(new FileIO.UserInfo(h));
 //                label.setText("Login Failed! Try Again");
                 frame.dispose();
             } else {
