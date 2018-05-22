@@ -4,6 +4,8 @@ import controller.FileIO;
 import controller.Main;
 import controller.Manager;
 import model.*;
+
+import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -160,7 +162,8 @@ public class Windows {
         @Override
         public void actionPerformed(ActionEvent e) {
             int h = FileIO.hashcode(nameField.getText(), passwordField.getPassword());
-            ArrayList<String> list = FileIO.searchPrivileges(h);
+//            ArrayList<String> list = FileIO.searchPrivileges(h);
+            FileIO.UserInfo list = FileIO.searchPrivileges(h);
             if(list == null){
                 FileIO.createUser(h);
                 new MainWindow(list);

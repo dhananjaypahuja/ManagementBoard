@@ -141,9 +141,9 @@ public class FileIO {
 
     public static void saveProject(ProjectModel projModel, UserInfo projList) {
         JFileChooser fc = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                "Text files only", "txt");
-        fc.setFileFilter(filter);
+//        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+//                "Text files only", "txt");
+//        fc.setFileFilter(filter);
         int returnVal = fc.showOpenDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
@@ -158,7 +158,7 @@ public class FileIO {
                 return;
             }
         }else{
-            System.out.println("Error: Wrong Input Type");
+            System.out.println("Error: Wrong Input Type or operation canceled");
         }
     }
 
