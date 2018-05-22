@@ -26,7 +26,7 @@ public class MainWindow {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FileIO.loadProject(projView.getProject(), projList);
+                FileIO.loadProject(projView.getProject(), projList, pScroll);
 //                JOptionPane.showMessageDialog(null, "Load", "Test Box", JOptionPane.INFORMATION_MESSAGE);
             }
         });

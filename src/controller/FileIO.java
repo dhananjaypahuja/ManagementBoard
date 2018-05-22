@@ -160,7 +160,7 @@ public class FileIO {
         }
     }
 
-    public static void loadProject(ProjectModel project, UserInfo projList) {
+    public static void loadProject(ProjectModel project, UserInfo projList, JComboBox pScroll) {
         //TODO populate the dropbox with the loaded projects
         JFileChooser fc = new JFileChooser();
         int returnVal = fc.showOpenDialog(null);
@@ -169,6 +169,7 @@ public class FileIO {
             try{
                 read(file);
                 addFilePrivilege(projList.getUserHash(),file.getAbsolutePath());
+                pScroll.addItem(file);
             }catch(FileNotFoundException e) {
                 System.out.println("Error: File Not Found");
                 return;
