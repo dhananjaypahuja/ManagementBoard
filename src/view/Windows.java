@@ -1,19 +1,13 @@
 package view;
 
 import controller.FileIO;
-import controller.Main;
-import controller.Manager;
 import model.*;
 
-import javax.jws.soap.SOAPBinding;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.text.*;
 import java.util.*;
-import java.util.List;
 
 public class Windows {
 

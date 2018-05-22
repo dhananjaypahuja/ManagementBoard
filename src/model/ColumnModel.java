@@ -1,7 +1,5 @@
 package model;
 
-import java.util.LinkedList;
-
 /**
  * Represents the model for a column in a project.
  */

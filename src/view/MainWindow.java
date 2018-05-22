@@ -1,13 +1,10 @@
 package view;
 
 import controller.FileIO;
-import controller.Main;
 import controller.Manager;
-import model.ColumnModel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
