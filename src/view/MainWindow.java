@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainWindow {
     public MainWindow(FileIO.UserInfo projList) {
@@ -19,7 +20,9 @@ public class MainWindow {
 
         JLabel pLabel = new JLabel("Select Project");
         ProjectView projView = new ProjectView();//gridx 0 gridy 1
-        JComboBox pScroll = new JComboBox(/**FileIO.searchPrivileges(projList.getUserHash())*/); //Project list scroll
+        JComboBox pScroll = new JComboBox();
+        populateProjectList(pScroll, projList);//Project list scroll
+        /**FileIO.searchPrivileges(projList.getUserHash())*/
         //TODO FIX TO SHOW PROJECTS LIST
 
         JButton loadButton = new JButton("Load");
@@ -60,6 +63,7 @@ public class MainWindow {
 
         JButton newProjButton = new JButton("Create New Project");
         newProjButton.addActionListener(new CreateWindowListener(Windows.WindowType.CREATEPROJECT, projView));
+        pScroll.addItem(projView);
 
         JButton logOutButton = new JButton("Log Out");
         logOutButton.addActionListener(new ActionListener() {
@@ -103,6 +107,12 @@ public class MainWindow {
         frame.add(jPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    private void populateProjectList(JComboBox pScroll, FileIO.UserInfo projList) {
+        for (int i = 0; i < projList.size(); i ++)
+            pScroll.addItem(projList.get(i));
+        return;
     }
 
     static class CreateWindowListener implements ActionListener {

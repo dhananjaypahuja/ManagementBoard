@@ -142,7 +142,7 @@ public class FileIO {
 //        FileNameExtensionFilter filter = new FileNameExtensionFilter(
 //                "Text files only", "txt");
 //        fc.setFileFilter(filter);
-        int returnVal = fc.showOpenDialog(null);
+        int returnVal = fc.showSaveDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fc.getSelectedFile();
             try{
