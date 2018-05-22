@@ -133,7 +133,7 @@ public class Windows {
         @Override
         public void actionPerformed(ActionEvent e) {
             int h = FileIO.hashcode(nameField.getText(), passwordField.getPassword());
-            UserInfo list = FileIO.searchPrivileges(h);
+            FileIO.UserInfo list = FileIO.searchPrivileges(h);
             if(list == null){
                 label.setText("Login Failed! Try Again");
             } else {
