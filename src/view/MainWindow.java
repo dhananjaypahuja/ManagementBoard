@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainWindow {
-    public MainWindow(List<String> projList) {
+    public MainWindow(UserInfo projList) {
         JFrame frame = new JFrame("Task Board");
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new GridBagLayout());
