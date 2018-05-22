@@ -134,7 +134,7 @@ public class FileIO {
         return paths;
     }
 
-    public static void saveProject(ProjectModel projModel) {
+    public static void saveProject(ProjectModel projModel, UserInfo projList) {
         JFileChooser fc = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter(
                 "Text files only", "txt");
@@ -144,7 +144,7 @@ public class FileIO {
             File file = fc.getSelectedFile();
             try{
                 write(file, projModel);
-                addFilePrivilege(,file.getAbsolutePath());
+                addFilePrivilege(projList.getUserHash(),file.getAbsolutePath());
             }catch(FileNotFoundException e) {
                 System.out.println("Error: File Not Found");
                 return;

@@ -55,7 +55,7 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                JOptionPane.showMessageDialog(null, "Save", "Test Box", JOptionPane.INFORMATION_MESSAGE);
-                FileIO.saveProject(projView.getProject());
+                FileIO.saveProject(projView.getProject(), projList);
 
             }
         });
