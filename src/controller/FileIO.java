@@ -8,6 +8,8 @@ import java.util.*;
 import java.util.List;
 
 public class FileIO {
+    private static final File USERS_FILE = new File("./privileges");
+
     /**
      * Reads a {@link ProjectModel} from a file. The desired object must appear on its own
      * in the file under this implementation.
@@ -74,7 +76,7 @@ public class FileIO {
             if (info.getUserHash() == userHash)
                 return false;
         privileges.add(new UserInfo(userHash));
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("./privileges")))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(USERS_FILE))) {
             out.writeObject(privileges);
             return true;
         } catch(IOException ioe) {
@@ -91,7 +93,7 @@ public class FileIO {
     }
     public static ArrayList<UserInfo> readPrivileges() {
         ArrayList<UserInfo> infoList = new ArrayList<UserInfo>();
-        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(new File("./privileges")))) {
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(USERS_FILE))) {
             infoList = (ArrayList<UserInfo>) in.readObject();
         } catch(EOFException eofe) {
             return new ArrayList<UserInfo>();
@@ -115,7 +117,7 @@ public class FileIO {
                     return false;
                 else {
                     info.add(filepath);
-                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("./privileges")))) {
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(USERS_FILE))) {
                         out.writeObject(userInfo);
                     } catch(Exception e) {
                         e.printStackTrace();
@@ -186,6 +188,25 @@ public class FileIO {
         }else{
             System.out.println("Error: Wrong Input Type or operation canceled");
         }
+    }
+
+    public static boolean removeProject(JComboBox<String> dropdown, UserInfo uInfo) {
+        String path = (String) dropdown.getSelectedItem();
+        if (!uInfo.contains(path))
+            return false;
+        uInfo.remove(path);
+        ArrayList<UserInfo> privileges = readPrivileges();
+        for (UserInfo info : privileges)
+            if (info.getUserHash() == uInfo.getUserHash()) {
+                info.remove(path);
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(USERS_FILE))) {
+                    out.writeObject(privileges);
+                } catch(IOException ioe) {
+                    break;
+                }
+                return true;
+            }
+        return false;
     }
 
     private static void addIfPossible(JComboBox<String> dropdown, String item) {

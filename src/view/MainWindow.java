@@ -15,7 +15,7 @@ public class MainWindow {
         jPanel.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        frame.setBounds(0, 0, 700, 500);
+        frame.setBounds(0, 0, 800, 500);
 
         JLabel pLabel = new JLabel("Select Project");
         ProjectView projView = new ProjectView();//gridx 0 gridy 1
