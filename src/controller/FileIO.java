@@ -118,6 +118,11 @@ public class FileIO {
                     return false;
                 else {
                     info.add(filepath);
+                    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(new File("./privileges")))) {
+                        out.writeObject(userInfo);
+                    } catch(Exception e) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
         throw new RuntimeException("User hash not found.");
