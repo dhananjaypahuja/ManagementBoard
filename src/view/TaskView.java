@@ -197,15 +197,15 @@ public class TaskView extends JPanel {
             frame.dispose();
         }
 
-        public void selectColumn(JComboBox statusPanel, ProjectView projectView){
-
-            if(statusPanel.getSelectedIndex()== Manager.indexOfColumnContainingTask(projectView.getProject(), tView.getTask())){
-                System.out.println("Status unchanged");
-            } else {
-                //tView.getTask().add
-                //then remove from revius column
-                        //doessomething have to be done with updateLabels and putting this method in there
-            }
-        }
+//        public void selectColumn(JComboBox statusPanel, ProjectView projectView){
+//
+//            if(statusPanel.getSelectedIndex()== Manager.indexOfColumnContainingTask(projectView.getProject(), tView.getTask())){
+//                System.out.println("Status unchanged");
+//            } else {
+//                //tView.getTask().add
+//                //then remove from revius column
+//                        //doessomething have to be done with updateLabels and putting this method in there
+//            }
+//        }
     }
 }

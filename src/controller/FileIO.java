@@ -1,8 +1,14 @@
 package controller;
 
 import model.*;
+import view.ProjectView;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class FileIO {
     /**
@@ -126,6 +132,29 @@ public class FileIO {
         for (int i = 0; i < userInfo.size(); i ++)
             paths[i] = userInfo.get(i);
         return paths;
+    }
+
+    public static void saveProject(ProjectModel projModel) {
+        JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "Text files only", "txt");
+        fc.setFileFilter(filter);
+        int returnVal = fc.showOpenDialog(null);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fc.getSelectedFile();
+            try{
+                write(file, projModel);
+                addFilePrivilege(,file.getAbsolutePath());
+            }catch(FileNotFoundException e) {
+                System.out.println("Error: File Not Found");
+                return;
+            } catch(IOException e){
+                System.out.println("Error: I/O Exception");
+                return;
+            }
+        }else{
+            System.out.println("Error: Wrong Input Type");
+        }
     }
 
     /**

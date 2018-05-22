@@ -1,5 +1,6 @@
 package view;
 
+import controller.FileIO;
 import controller.Main;
 import controller.Manager;
 import model.ColumnModel;
@@ -54,6 +55,8 @@ public class MainWindow {
             @Override
             public void actionPerformed(ActionEvent e) {
 //                JOptionPane.showMessageDialog(null, "Save", "Test Box", JOptionPane.INFORMATION_MESSAGE);
+                FileIO.saveProject(projView);
+
             }
         });
 
