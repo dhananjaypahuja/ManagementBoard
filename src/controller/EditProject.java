@@ -30,6 +30,15 @@ public class EditProject {
         JButton addColumn = new JButton("+");
 
         addColumn.addActionListener(new AddColumnListener( columnPanel ,panel));
+
+        c.gridx = 0;
+        c.gridy = 0;
+        panel.add(rename,c);
+        c.gridx++;
+        panel.add(newNameField, c);
+        c.gridx--;
+        c.gridy++;
+        panel.add(addColumn, c);
     }
     private static class AddColumnListener implements ActionListener {
         JPanel columns, mainPanel;
