@@ -45,6 +45,16 @@ public class Manager {
         return col;
     }
     /**
+     * Removes a column from a project view and model.
+     * @param pView The {@link ProjectView} from which the column should be removed.
+     * @param cModel The column to remove.
+     * @return The removed column.
+     */
+    public static ColumnModel removeTask(ProjectView pView, TaskModel cModel) {
+        int index = pView.getProject().indexOf(cModel);
+        return index < 0 ? null : removeTask(pView, index);
+    }
+    /**
      * Removes a task from a column view and model.
      * @param cView The {@link ColumnView} from which the task should be removed.
      * @param index The position of the task to remove.
