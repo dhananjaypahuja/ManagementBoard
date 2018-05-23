@@ -52,7 +52,7 @@ public class Manager {
      */
     public static ColumnModel removeTask(ProjectView pView, TaskModel cModel) {
         int index = pView.getProject().indexOf(cModel);
-        return index < 0 ? null : removeTask(pView, index);
+        return index < 0 ? null : removeColumn(pView, index);
     }
     /**
      * Removes a task from a column view and model.
