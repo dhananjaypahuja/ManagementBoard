@@ -38,6 +38,8 @@ public class EditProject {
         c.gridx--;
         c.gridy++;
         panel.add(addColumn, c);
+
+        frame.setVisible(true);
     }
     private static class AddColumnListener implements ActionListener {
         JPanel columns, mainPanel;
