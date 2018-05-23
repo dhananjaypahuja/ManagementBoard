@@ -54,7 +54,7 @@ public class MainWindow {
             public void actionPerformed(ActionEvent e) {
 //                JOptionPane.showMessageDialog(null, "Edit", "Test Box", JOptionPane.INFORMATION_MESSAGE);
 //                Windows taskWindow = new Windows(Windows.WindowType.CREATETASK);
-                new EditProject(frame, jPanel, projView.getProject());
+                new EditProject(frame, jPanel, projView);
             }
         });
 

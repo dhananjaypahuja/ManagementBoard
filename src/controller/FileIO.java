@@ -92,15 +92,15 @@ public class FileIO {
         return null;
     }
     public static ArrayList<UserInfo> readPrivileges() {
-        ArrayList<UserInfo> infoList = new ArrayList<UserInfo>();
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(USERS_FILE))) {
-            infoList = (ArrayList<UserInfo>) in.readObject();
+            @SuppressWarnings("unchecked")
+            ArrayList<UserInfo> infoList = (ArrayList<UserInfo>) in.readObject();
+            return infoList;
         } catch(EOFException eofe) {
-            return new ArrayList<UserInfo>();
         } catch(Exception e) {
             e.printStackTrace();
         }
-        return infoList;
+        return new ArrayList<UserInfo>();
     }
     /**
      * Add a filepath to the list of files a user denoted by a hash is authorized to access.

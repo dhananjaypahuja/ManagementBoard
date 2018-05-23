@@ -1,7 +1,6 @@
 package controller;
 
-import view.ColumnView;
-import view.Windows;
+import view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +14,7 @@ public class EditProject {
     JPanel columnPanel; // panel displaying existing columns with 2 navigation buttons and a "-" button on opposite side
     GridBagConstraints c;
 
-    public EditProject(JFrame frame, JPanel panel, ColumnView columnPanel) {
+    public EditProject(JFrame frame, JPanel panel, ProjectView columnPanel) {
         frame = new JFrame("Edit Project");
         panel = new JPanel();
         this.columnPanel = columnPanel;
