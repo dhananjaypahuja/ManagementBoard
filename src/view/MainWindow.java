@@ -3,6 +3,7 @@ package view;
 import controller.EditProject;
 import controller.FileIO;
 import controller.Manager;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,9 +53,73 @@ public class MainWindow {
         editButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                JOptionPane.showMessageDialog(null, "Edit", "Test Box", JOptionPane.INFORMATION_MESSAGE);
-//                Windows taskWindow = new Windows(Windows.WindowType.CREATETASK);
-                new EditProject(frame, jPanel, projView);
+//                new EditProject(frame, jPanel, projView);
+                JFrame editFrame = new JFrame("Edit");
+                editFrame.setMinimumSize(new Dimension(1024, 256));
+
+                ProjectModel projModel = projView.getProject();
+                // Shallow copy.
+                ArrayList<ColumnModel> cols = new ArrayList<ColumnModel>(projModel);
+                JPanel columnPanel = new JPanel();
+                JTextArea title = new JTextArea(projModel.getTitle());
+                columnPanel.setLayout(new BoxLayout(columnPanel, BoxLayout.X_AXIS));
+                for (int i = 0; i < cols.size(); i ++)
+                    columnPanel.add(new ColumnPanel(cols, i, columnPanel));
+                JButton addColumn = new JButton("+");
+                addColumn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        synchronized(this) {
+                            cols.add(new ColumnModel(""));
+                            columnPanel.add(new ColumnPanel(cols, cols.size() - 1, columnPanel));
+                        }
+                        columnPanel.revalidate();
+                    }
+                });
+                JButton cancel = new JButton("Cancel");
+                cancel.addActionListener(new Windows.CancelListener(editFrame));
+                JButton confirm = new JButton("Confirm");
+                confirm.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        ColumnModel[] columns = new ColumnModel[cols.size()];
+                        Component[] comps = columnPanel.getComponents();
+                        for (int i = 0; i < columns.length; i ++) {
+                            columns[i] = cols.get(i);
+                            columns[i].setTitle(((ColumnPanel) comps[i]).titleField.getText());
+                        }
+                        projView.setProject(new ProjectModel(title.getText(), columns));
+                        projView.revalidate();
+                        editFrame.dispose();
+                    }
+                });
+
+                editFrame.setLayout(new GridBagLayout());
+                GridBagConstraints c = new GridBagConstraints();
+                c.gridheight = c.gridwidth = c.gridx = 1;
+                c.ipadx += 5;
+                c.ipady += 5;
+                c.gridy = 0;
+                c.fill = GridBagConstraints.HORIZONTAL;
+                editFrame.add(title, c);
+                c.gridx --;
+                editFrame.add(new JLabel("Project Title"), c);
+                c.ipadx -= 5;
+                c.ipady -= 5;
+                c.gridy ++;
+                editFrame.add(new JLabel("Columns"), c);
+                c.gridy ++;
+                c.gridwidth = 4;
+                editFrame.add(columnPanel, c);
+                c.gridwidth = 1;
+                c.gridx = 4;
+                editFrame.add(addColumn, c);
+                c.gridy ++;
+                editFrame.add(confirm, c);
+                c.gridx --;
+                editFrame.add(cancel, c);
+
+                editFrame.setVisible(true);
             }
         });
 
@@ -176,6 +241,96 @@ public class MainWindow {
         @Override
         public void actionPerformed(ActionEvent e) {
             new Windows(type, callback);
+        }
+    }
+
+    private static class ColumnPanel extends JPanel {
+        ArrayList<ColumnModel> columns;
+        int index;
+        Container container;
+        JTextField titleField;
+
+        ColumnPanel(ArrayList<ColumnModel> columns, int index, Container container) {
+            this.columns = columns;
+            this.index = index;
+            this.container = container;
+            titleField = new JTextField(columns.get(index).getTitle());
+            JButton left = new JButton("◀");
+            left.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (container.getComponentCount() == 1)
+                        return;
+                    if (index > 0)
+                        swapConsecutive(index - 1);
+                    else
+                        swapFirstAndLast();
+                    container.revalidate();
+                }
+            });
+            JButton remove = new JButton("−");
+            remove.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    synchronized(this) {
+                        container.remove(index);
+                        columns.remove(index);
+                    }
+                    container.revalidate();
+                }
+            });
+            JButton right = new JButton("▶");
+            right.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (container.getComponentCount() == 1)
+                        return;
+                    if (index >= container.getComponentCount() - 1)
+                        swapFirstAndLast();
+                    else
+                        swapConsecutive(index);
+                    container.revalidate();
+                }
+            });
+
+            setLayout(new GridBagLayout());
+            GridBagConstraints c = new GridBagConstraints();
+            c.gridx = c.gridy = 0;
+            c.gridwidth = 3;
+            c.gridheight = 1;
+            c.fill = GridBagConstraints.HORIZONTAL;
+            add(titleField, c);
+            c.gridwidth = 1;
+            c.gridy ++;
+            add(left, c);
+            c.gridx ++;
+            add(remove, c);
+            c.gridx ++;
+            add(right, c);
+        }
+
+        private synchronized void swapFirstAndLast() {
+            int lastIndex = columns.size() - 1;
+            ColumnModel lastCol = columns.remove(lastIndex);
+            ColumnModel firstCol = columns.remove(0);
+            columns.add(0, lastCol);
+            columns.add(lastIndex, firstCol);
+            ColumnPanel firstComp = (ColumnPanel) container.getComponent(0);
+            ColumnPanel lastComp = (ColumnPanel) container.getComponent(lastIndex);
+            container.remove(lastIndex);
+            container.remove(0);
+            container.add(lastComp, 0);
+            container.add(firstComp, lastIndex);
+            firstComp.index = lastIndex;
+            lastComp.index = 0;
+        }
+        private synchronized void swapConsecutive(int first) {
+            columns.add(first + 1, columns.remove(first));
+            ColumnPanel firstComp = (ColumnPanel) container.getComponent(first);
+            container.remove(first);
+            firstComp.index ++;
+            ((ColumnPanel) container.getComponent(first)).index --;
+            container.add(firstComp, first + 1);
         }
     }
 }
